@@ -19,3 +19,8 @@ sequelize
   .catch((error) => {
     console.error("Unable to connect to the database:", error);
   });
+
+
+  export default sequelize;
+// Exporting the sequelize instance for use in other parts of the application
+// This instance can be used to define models and interact with the database

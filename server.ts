@@ -1,5 +1,7 @@
 import app from './src/app'
 import envConfig from './src/config/config';
+// Importing the Database connection
+import './src/config/dbConnection'
 
 // Importing the express app and environment configuration
 // Starting the server

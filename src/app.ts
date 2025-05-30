@@ -3,6 +3,7 @@ import envConfig from "./config/config";
 
 const app = express();
 
+app.use(express.json()) // body parser middleware to parse JSON requests
 
 app.get("/", (req, res)=>{
     res.json({

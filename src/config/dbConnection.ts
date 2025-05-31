@@ -29,7 +29,7 @@ sequelize
     console.log("Database synchronized successfully.");
   })
   .catch((error) => {
-    console.log("Unable to synchronize the database:", error);
+    console.log("Unable to synchronize the database:", error );
   });
 
 export default sequelize;

@@ -1,5 +1,6 @@
 import express from "express";
 import envConfig from "./config/config";
+import userRoute from "./routes/user.routes"
 
 const app = express();
 
@@ -14,5 +15,8 @@ app.get("/", (req, res)=>{
         port: envConfig.portNumber
     })
 })
+
+// Routes
+app.use("/api/users", userRoute)
 
 export default app;

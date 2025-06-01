@@ -1,4 +1,4 @@
-import {Table, Column, Model, DataType, AllowNull, PrimaryKey} from "sequelize-typescript"
+import { Table, Column, Model, DataType, AllowNull, PrimaryKey } from "sequelize-typescript"
 
 @Table({
     tableName: "Users", // Use plural form for table name because it represents a collection of users
@@ -6,7 +6,7 @@ import {Table, Column, Model, DataType, AllowNull, PrimaryKey} from "sequelize-t
     modelName: "User" // Use singular form for model name because it represents a single user
 })
 
-class User extends Model{
+class User extends Model {
 
     @Column({
         primaryKey: true, // Use PrimaryKey to indicate that this column is the primary key
@@ -39,6 +39,7 @@ class User extends Model{
         allowNull: false,
     })
     declare phoneNumber: number
+
 }
 
 export default User;

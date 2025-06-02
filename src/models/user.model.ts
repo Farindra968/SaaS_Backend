@@ -40,6 +40,12 @@ class User extends Model {
     })
     declare phoneNumber: number
 
+    @Column({
+        type: DataType.ENUM("teacher", "student", "admin", "superadmin"), // Use ENUM for user roles
+        defaultValue: "student", // Default role is student
+        allowNull: false // Ensure role cannot be null
+    })
+    declare role: string
 }
 
 export default User;

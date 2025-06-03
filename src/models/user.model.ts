@@ -35,10 +35,10 @@ class User extends Model {
     declare password: string
 
     @Column({
-        type: DataType.INTEGER,
+        type: DataType.STRING,
         allowNull: false,
     })
-    declare phoneNumber: number
+    declare phoneNumber: string
 
     @Column({
         type: DataType.ENUM("teacher", "student", "admin", "superadmin"), // Use ENUM for user roles

@@ -5,7 +5,8 @@ import bcrypt from "bcryptjs"
 
 const authRegister = async (data:any)=>{
     // Password hashing
-    const hassPassword = await bcrypt.hash(data.password, 10)
+    const hassPassword =  bcrypt.hashSync(data.password, 12)
+
     const register =  await User.create({
         userName: data.userName, 
         email: data.email, 

@@ -5,7 +5,7 @@ const authRegister = async (req:Request, res:Response):Promise<void> => {
     const {userName, email, password, confirmpassword, phoneNumber}= req.body ;
     try {
         // Validate required fields
-        if (!userName) { res.status(400).send('User name is required' );
+        if (!userName) { res.status(400).send('User name is required');
             return;
          }
         if (!email) { res.status(400).send('Email is required' );

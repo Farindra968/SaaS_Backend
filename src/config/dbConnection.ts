@@ -23,8 +23,8 @@ sequelize
 
 // migration
 sequelize
-  .sync({force: false}) // Set force to true to drop and recreate tables, false to keep existing data
-  // Use {force: true} only during development or when you want to reset the database
+  .sync({alter: false}) // Set to true if you want to alter the tables to match the models
+  // Use { force: true } to drop and recreate tables, but be cautious as this will delete existing data
   .then(() => {
     console.log("Database synchronized successfully.");
   })

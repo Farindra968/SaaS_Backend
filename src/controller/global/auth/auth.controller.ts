@@ -44,7 +44,7 @@ const authRegister = async (req: Request, res: Response): Promise<void> => {
     }
 
     const data = await authService.authRegister(req.body);
-        // Optionally, you can generate a JWT token here and send it back in the response
+    // Optionally, you can generate a JWT token here and send it back in the response
     const token = jsonToken({
       id: data.id,
       email: data.email,
@@ -64,10 +64,12 @@ const authLogin = async (req: Request, res: Response): Promise<void> => {
   const { email, password } = req.body;
   try {
     // Validate required fields
-    if (!email) {res.status(400).send("Email is required");
+    if (!email) {
+      res.status(400).send("Email is required");
       return;
     }
-    if (!password) {res.status(400).send("Password is required");
+    if (!password) {
+      res.status(400).send("Password is required");
       return;
     }
     const data = await authService.authLogin(req.body);

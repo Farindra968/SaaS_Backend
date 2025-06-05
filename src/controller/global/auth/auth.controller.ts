@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import authService from "../../../services/global/auth/auth.service";
 import { PASSWORD_REGEX } from "../../../constant/regex";
+import { jsonToken } from "../../../utils/jwttoken";
 
 const authRegister = async (req: Request, res: Response): Promise<void> => {
   const { userName, email, password, confirmpassword, phoneNumber } = req.body;
@@ -43,6 +44,16 @@ const authRegister = async (req: Request, res: Response): Promise<void> => {
     }
 
     const data = await authService.authRegister(req.body);
+        // Optionally, you can generate a JWT token here and send it back in the response
+    const token = jsonToken({
+      id: data.id,
+      email: data.email,
+      userName: data.userName,
+      phoneNumber: data.phoneNumber,
+      role: data.role,
+    })
+    // saving json token in cookie
+    res.cookie("token", token)
     res.json(data);
   } catch (error) {
     res.status(500).send(error);
@@ -60,6 +71,16 @@ const authLogin = async (req: Request, res: Response): Promise<void> => {
       return;
     }
     const data = await authService.authLogin(req.body);
+    // Optionally, you can generate a JWT token here and send it back in the response
+    const token = jsonToken({
+      id: data.id,
+      email: data.email,
+      userName: data.userName,
+      phoneNumber: data.phoneNumber,
+      role: data.role,
+    })
+    // saving json token in cookie
+    res.cookie("token", token)
     res.json(data);
   } catch (error) {
     res.status(500).send(error);

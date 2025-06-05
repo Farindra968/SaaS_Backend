@@ -9,7 +9,7 @@ const envConfig = {
     databasePassword: process.env.DB_PASSWORD,
     databaseHost: process.env.DB_HOST,
     databasePort: process.env.DB_PORT,
-
+    jsonSecret: process.env.JSON_SECRET
 }
 
 

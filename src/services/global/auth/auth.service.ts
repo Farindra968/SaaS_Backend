@@ -1,4 +1,3 @@
-import { Request, Response } from "express";
 import User from "../../../models/user.model";
 import bcrypt from "bcryptjs";
 
@@ -14,7 +13,7 @@ const authRegister = async (data: any) => {
     phoneNumber: data.phoneNumber,
   });
   if (!register) {
-    throw new Error("User registration failed");
+    throw {statusCode: 400, message:"User Registeration fieod"};
   }
   return register;
 };

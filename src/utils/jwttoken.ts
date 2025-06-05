@@ -12,7 +12,7 @@ const jsonToken = (data:ITokenData)=>{
     if(!envConfig.jsonSecret){
         throw { statusCode: 500, message: "JSON secret is not defined in environment variables" };
     }
-    const token = jwt.sign(data, envConfig.jsonSecret, {expiresIn: 60*60} )
+    const token = jwt.sign(data, envConfig.jsonSecret, {expiresIn: 60*60} ) // tokem expire in 1 hour
     console.log("JWT Token generated:", token);
     return token;
 }

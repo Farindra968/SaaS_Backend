@@ -5,7 +5,6 @@ interface ITokenData {
     id: string;
     email: string;
     userName: string;
-    phoneNumber: string;
     role?: string; // Optional, if you want to include user role in the token
 }
 const jsonToken = (data:ITokenData)=>{

@@ -49,7 +49,6 @@ const authRegister = async (req: Request, res: Response): Promise<void> => {
       id: data.id,
       email: data.email,
       userName: data.userName,
-      phoneNumber: data.phoneNumber,
       role: data.role,
     })
     // saving json token in cookie
@@ -78,7 +77,6 @@ const authLogin = async (req: Request, res: Response): Promise<void> => {
       id: data.id,
       email: data.email,
       userName: data.userName,
-      phoneNumber: data.phoneNumber,
       role: data.role,
     })
     // saving json token in cookie

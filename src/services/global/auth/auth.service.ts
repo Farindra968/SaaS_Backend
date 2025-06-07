@@ -23,7 +23,7 @@ const authLogin = async (data: any) => {
 
   if (!user) throw { statusCode: 404, message: "User  not found" };
 
-  //comparing the data password (hash /excrypt) to user input password
+  //comparing the data password (hash /encrypt) to user input password
   const isPasswordValid = await bcrypt.compare(data.password, user.password);
   if (!isPasswordValid) {
     throw { statusCode: 404, message: "Invalid email or password" };

@@ -1,4 +1,4 @@
-import e, { Request, Response } from "express";
+import { Request, Response } from "express";
 import authService from "../../../services/global/auth/auth.service";
 import { PASSWORD_REGEX } from "../../../constant/regex";
 import { jsonToken } from "../../../utils/jwttoken";
@@ -158,14 +158,11 @@ class authController {
     const { email, password } = req.body;
     try {
       // Validate required fields
-      if (!email) {
-        res.status(400).send("Email is required");
+      if (!email && !password) {
+        res.status(400).send("Email and Password are required");
         return;
       }
-      if (!password) {
-        res.status(400).send("Password is required");
-        return;
-      }
+
       const data = await authService.authLogin(req.body);
       // Optionally, you can generate a JWT token here and send it back in the response
       const token = jsonToken({

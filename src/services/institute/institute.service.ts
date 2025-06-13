@@ -10,11 +10,12 @@ interface IInstitute {
   institutePanNo?: string;
 }
 
-const createInstitute = async (data: IInstitute) => {
   const instituteNumber = generateRandomInsituteNumber();
-  const tableName = `institute_${instituteNumber}`;
+  const InstituteTableNo =  `institute_${instituteNumber}`
 
-  await sequelize.query(`CREATE TABLE IF NOT EXISTS ${tableName} (
+const createInstitute = async (data: IInstitute) => {
+
+  await sequelize.query(`CREATE TABLE IF NOT EXISTS ${InstituteTableNo} (
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     instituteName VARCHAR(255) NOT NULL,
     instituteEmail VARCHAR(255) NOT NULL UNIQUE,
@@ -27,7 +28,7 @@ const createInstitute = async (data: IInstitute) => {
   )`);
 
   await sequelize.query(
-    `INSERT INTO ${tableName} (instituteName, instituteEmail, institutePhoneNo, instituteAddress, instituteVatNo, institutePanNo) VALUES (?, ?, ?, ?, ?, ?)`,
+    `INSERT INTO ${InstituteTableNo} (instituteName, instituteEmail, institutePhoneNo, instituteAddress, instituteVatNo, institutePanNo) VALUES (?, ?, ?, ?, ?, ?)`,
     {
       replacements: [
         data.instituteName,
@@ -40,7 +41,7 @@ const createInstitute = async (data: IInstitute) => {
     }
   );
 
-  return { tableName };
+  return {instituteNumber, InstituteTableNo};
 };
 
 export { createInstitute };

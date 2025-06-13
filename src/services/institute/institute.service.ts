@@ -1,21 +1,17 @@
 import sequelize from "../../config/dbConnection";
-import generateRandomInsituteNumber from "../../utils/generateRandomInsituteNumber";
 
 interface IInstitute {
   instituteName: string;
   instituteEmail: string;
   institutePhoneNo: string;
   instituteAddress: string;
-  instituteVatNo?: string;
-  institutePanNo?: string;
+  instituteVatNo?: string | null;
+  institutePanNo?: string | null;
 }
 
-  const instituteNumber = generateRandomInsituteNumber();
-  const InstituteTableNo =  `institute_${instituteNumber}`
+const createInstitute = async (instituteNumber:Number, data: IInstitute) => {
 
-const createInstitute = async (data: IInstitute) => {
-
-  await sequelize.query(`CREATE TABLE IF NOT EXISTS ${InstituteTableNo} (
+await sequelize.query(`CREATE TABLE IF NOT EXISTS institute_${instituteNumber} (
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     instituteName VARCHAR(255) NOT NULL,
     instituteEmail VARCHAR(255) NOT NULL UNIQUE,
@@ -27,8 +23,19 @@ const createInstitute = async (data: IInstitute) => {
     updatedAT TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
   )`);
 
+  // teacher
+  await sequelize.query(`CREATE TABLE IF NOT EXISTS teacher_${instituteNumber} (
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    teacherName VARCHAR(255) NOT NULL,
+    teacherEmail VARCHAR(255) NOT NULL UNIQUE,
+    teacherPhoneNo VARCHAR(255) NOT NULL UNIQUE,
+    teacherAddress VARCHAR(255) NOT NULL UNIQUE,
+    createdAT TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    )`);
+
   await sequelize.query(
-    `INSERT INTO ${InstituteTableNo} (instituteName, instituteEmail, institutePhoneNo, instituteAddress, instituteVatNo, institutePanNo) VALUES (?, ?, ?, ?, ?, ?)`,
+    `INSERT INTO institute_${instituteNumber} (instituteName, instituteEmail, institutePhoneNo, instituteAddress, instituteVatNo, institutePanNo) VALUES (?, ?, ?, ?, ?, ?)`,
     {
       replacements: [
         data.instituteName,
@@ -41,7 +48,6 @@ const createInstitute = async (data: IInstitute) => {
     }
   );
 
-  return {instituteNumber, InstituteTableNo};
 };
 
 export { createInstitute };

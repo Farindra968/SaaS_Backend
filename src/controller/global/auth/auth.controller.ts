@@ -146,7 +146,7 @@ class authController {
         role: data.role,
       });
       // saving json token in cookie
-      res.cookie("token", token);
+
       res.json(data);
     } catch (error) {
       res.status(500).send(error);
@@ -172,7 +172,7 @@ class authController {
         role: data.role,
       });
       // saving json token in cookie
-
+      req.headers.authorization = (token)
       res.json({data, token});
     } catch (error) {
       res.status(500).send(error);

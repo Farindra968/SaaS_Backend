@@ -7,6 +7,7 @@ interface ITokenData {
   userName: string;
   role?: string; // Optional, if you want to include user role in the token
 }
+
 const jsonToken = (data: ITokenData) => {
   if (!envConfig.jsonSecret) {
     throw {
@@ -18,5 +19,6 @@ const jsonToken = (data: ITokenData) => {
   console.log("JWT Token generated:", token);
   return token;
 };
+
 
 export { jsonToken };

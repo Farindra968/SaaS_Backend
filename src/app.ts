@@ -1,7 +1,7 @@
 import express from "express";
 import envConfig from "./config/config";
-import userRoute from "./routes/user.routes"
 import authRoute from "./routes/global/auth/auth.routes"
+import instituteRoute from "./routes/institute/institute.routes"
 
 const app = express();
 
@@ -20,6 +20,7 @@ app.get("/", (req, res)=>{
 // Routes
 //auth routes
 app.use("/api/auth", authRoute)
-app.use("/api/users", userRoute)
 
+// institute route
+app.use("/api/institute", instituteRoute)
 export default app;

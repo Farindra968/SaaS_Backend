@@ -2,8 +2,17 @@ import { Request, Response } from "express";
 import { createInstitute } from "../../services/institute/institute.service";
 import generateRandomInsituteNumber from "../../utils/generateRandomInsituteNumber";
 
+interface IExtendRequest extends Request {
+  user?: {
+    id: string,
+    email: string;
+    role: string;
+    userName: string | null;
+  };
+}
+
 class InstituteController {
-  static async createInstitute(req: Request, res: Response) {
+  static async createInstitute(req: IExtendRequest, res: Response) {
     try {
       const {
         instituteName,
@@ -11,6 +20,8 @@ class InstituteController {
         institutePhoneNo,
         instituteAddress,
       } = req.body;
+      const userData = req.user;
+      console.log(`This is user data = ${userData}`)
       const instituteVatNo = req.body.instituteVatNo || null;
       const institutePanNo = req.body.institutePanNo || null;
 

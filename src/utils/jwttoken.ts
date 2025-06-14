@@ -21,7 +21,7 @@ const jsonToken = (data: ITokenData) => {
 };
 
 const verifyToken = async(authToken:any)=>{
-  return await new Promise((reject, resolve)=>{
+  return await new Promise((resolve, reject)=>{
     // if Secret key not found
     if(!envConfig.jsonSecret) {
       throw {
@@ -30,8 +30,8 @@ const verifyToken = async(authToken:any)=>{
     };
     } 
     jwt.verify(authToken, envConfig.jsonSecret, (error:any, data:any)=>{
-      if(error) return reject;
-      return resolve(data)
+      if(error) {return reject(error)};
+      resolve(data);
 
     })
   })

@@ -1,10 +1,12 @@
 import { NextFunction, Request, Response } from "express";
 import User from "../models/user.model";
-import { verifyToken } from "../utils/jwttoken";
+import { verifyToken } from "../utils/jwttoken"; // your custom async token verifier
+import jwt from "jsonwebtoken";
+import envConfig from "../config/config";
 
 interface IExtendRequest extends Request {
   user?: {
-    id: string,
+    id: string;
     email: string;
     role: string;
     userName: string | null;
@@ -18,27 +20,44 @@ class Middleware {
     next: NextFunction
   ) {
     const authToken = req.headers.authorization;
-    console.log(authToken);
-    // jwt verify
-    verifyToken(authToken) // src/utils/jwttoken.ts
-      // for success
-      .then(async (data: any) => {
-        // validing data from User Model
-        const userData = await User.findByPk(data);
-        console.log(`Userdata ${userData}`);
-        // if not valid
-        if (!userData) {
-          res.status(403).json({ message: "No User found" });
+    console.log(`==========> ${authToken}`);
+
+    if (!authToken) {
+      res.status(401).send("Authorization token missing or invalid");
+      return;
+    }
+
+    // ✅ Step 1: Using direct `jwt.verify`
+
+    jwt.verify(authToken, envConfig.jsonSecret!, async (error, data: any) => {
+      if (error || !data) {
+        res.status(401).send("Invalid or expired token");
+        return;
+      }
+      const userData = await User.findByPk(data.id);
+      if (!userData) {
+        res.status(404).send("User not found");
+        return;
+      }
+      req.user = data;
+
+      next();
+    });
+
+    // ✅ Step 2: Alternative using your `verifyToken` promise-based function
+    /*verifyToken(authToken)
+      .then(async(data:any) => {
+        const userData = await User.findByPk(data.id)
+        if(!userData) {
+          res.status(404).send("User Not found")
           return;
-        } else {
-          req.user = userData;
-          next();
         }
+        req.user = data;
+        next();
       })
-      // for error
       .catch(() => {
-        res.status(401).send("Invalid Token");
-      });
+        res.status(401).send("Invalid or Expired Token")
+      });*/
   }
 }
 

@@ -15,7 +15,7 @@ await sequelize.query(`CREATE TABLE IF NOT EXISTS institute_${instituteNumber} (
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     instituteName VARCHAR(255) NOT NULL,
     instituteEmail VARCHAR(255) NOT NULL UNIQUE,
-    institutePhoneNo VARCHAR(255) NOT NULL UNIQUE,
+    institutePhoneNo VARCHAR(255) NOT NULL UNIQUE ,
     instituteAddress VARCHAR(255),
     instituteVatNo VARCHAR(255),
     institutePanNo VARCHAR(255),

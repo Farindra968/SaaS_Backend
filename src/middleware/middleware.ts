@@ -3,15 +3,8 @@ import User from "../models/user.model";
 import { verifyToken } from "../utils/jwttoken"; // your custom async token verifier
 import jwt from "jsonwebtoken";
 import envConfig from "../config/config";
+import { IExtendRequest } from "../global";
 
-interface IExtendRequest extends Request {
-  user?: {
-    id: string;
-    email: string;
-    role: string;
-    userName: string | null;
-  };
-}
 
 class Middleware {
   static async isLoggedIn(

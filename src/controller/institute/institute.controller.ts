@@ -1,15 +1,9 @@
 import { Request, Response } from "express";
 import { createInstitute } from "../../services/institute/institute.service";
 import generateRandomInsituteNumber from "../../utils/generateRandomInsituteNumber";
+import { IExtendRequest } from "../../global";
 
-interface IExtendRequest extends Request {
-  user?: {
-    id: string,
-    email: string;
-    role: string;
-    userName: string | null;
-  };
-}
+
 
 class InstituteController {
   static async createInstitute(req: IExtendRequest, res: Response) {

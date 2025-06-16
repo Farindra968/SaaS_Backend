@@ -8,6 +8,7 @@ import {
   Validate,
 } from "sequelize-typescript";
 import { PASSWORD_REGEX } from "../constant/regex";
+import { ROLE_ADMIN, ROLE_INSTITUTE, ROLE_STUDENT, ROLE_SUPERADMIN, ROLE_TEACHER } from "../constant/role";
 
 @Table({
   tableName: "Users", // Use plural form for table name because it represents a collection of users
@@ -58,8 +59,8 @@ class User extends Model {
   declare instituteCode:string[]
 
   @Column({
-    type: DataType.ENUM("teacher", "student", "admin", "superadmin"), // Use ENUM for user roles
-    defaultValue: "student", // Default role is student
+    type: DataType.ENUM(ROLE_SUPERADMIN, ROLE_ADMIN, ROLE_INSTITUTE, ROLE_TEACHER, ROLE_STUDENT), // Use ENUM for user roles
+    defaultValue: ROLE_STUDENT, // Default role is student
     allowNull: false, // Ensure role cannot be null
   })
   declare role: string;

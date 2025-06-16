@@ -1,4 +1,5 @@
 import sequelize from "../../config/dbConnection";
+import { ROLE_INSTITUTE } from "../../constant/role";
 import User from "../../models/user.model";
 
 interface IInstitute {
@@ -29,7 +30,8 @@ const createInstitute = async (
   // add instituteNumber as instituteCode in user model
   if (user) {
     await User.update(
-      { instituteCode: instituteNumber },
+      { role: ROLE_INSTITUTE,
+        instituteCode: instituteNumber },
       { where: { id: user?.id } }
     );
   }

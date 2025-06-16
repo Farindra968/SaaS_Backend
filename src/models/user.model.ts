@@ -51,6 +51,12 @@ class User extends Model {
   })
   declare phoneNumber: string;
 
+  //define instituteCode
+  @Column({
+    type: DataType.STRING
+  })
+  declare instituteCode:string[]
+
   @Column({
     type: DataType.ENUM("teacher", "student", "admin", "superadmin"), // Use ENUM for user roles
     defaultValue: "student", // Default role is student

@@ -6,6 +6,7 @@ interface ITokenData {
   email: string;
   userName: string;
   role?: string; // Optional, if you want to include user role in the token
+  instituteCode?: number[] | string[]
 }
 
 const jsonToken = (data: ITokenData) => {

@@ -144,6 +144,7 @@ class authController {
         email: data.email,
         userName: data.userName,
         role: data.role,
+        instituteCode: data.instituteCode
       });
       // saving json token in cookie
 
@@ -170,6 +171,7 @@ class authController {
         email: data.email,
         userName: data.userName,
         role: data.role,
+        instituteCode: data.instituteCode
       });
       // saving json token in cookie
       req.headers.authorization = (token)

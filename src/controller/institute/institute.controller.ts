@@ -43,7 +43,7 @@ class InstituteController {
       const instituteNumber = generateRandomInsituteNumber();
 
       // Pass req.body directly (ensure your service expects this shape)
-      const data = await createInstitute(instituteNumber, req.body);
+      const data = await createInstitute(instituteNumber, req.body, req.user);
 
       res.status(201).json({
         message: "Institute created successfully",

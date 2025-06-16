@@ -1,4 +1,5 @@
 import sequelize from "../../config/dbConnection";
+import User from "../../models/user.model";
 
 interface IInstitute {
   instituteName: string;
@@ -9,9 +10,12 @@ interface IInstitute {
   institutePanNo?: string | null;
 }
 
-const createInstitute = async (instituteNumber:Number, data: IInstitute) => {
-
-await sequelize.query(`CREATE TABLE IF NOT EXISTS institute_${instituteNumber} (
+const createInstitute = async (
+  instituteNumber: Number,
+  data: IInstitute,
+  user: any
+) => {
+  await sequelize.query(`CREATE TABLE IF NOT EXISTS institute_${instituteNumber} (
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     instituteName VARCHAR(255) NOT NULL,
     instituteEmail VARCHAR(255) NOT NULL UNIQUE,
@@ -22,17 +26,13 @@ await sequelize.query(`CREATE TABLE IF NOT EXISTS institute_${instituteNumber} (
     createdAT TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAT TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
   )`);
-
-  // teacher
-  await sequelize.query(`CREATE TABLE IF NOT EXISTS teacher_${instituteNumber} (
-    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    teacherName VARCHAR(255) NOT NULL,
-    teacherEmail VARCHAR(255) NOT NULL UNIQUE,
-    teacherPhoneNo VARCHAR(255) NOT NULL UNIQUE,
-    teacherAddress VARCHAR(255) NOT NULL UNIQUE,
-    createdAT TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-    )`);
+  // add instituteNumber as instituteCode in user model
+  if (user) {
+    await User.update(
+      { instituteCode: instituteNumber },
+      { where: { id: user?.id } }
+    );
+  }
 
   await sequelize.query(
     `INSERT INTO institute_${instituteNumber} (instituteName, instituteEmail, institutePhoneNo, instituteAddress, instituteVatNo, institutePanNo) VALUES (?, ?, ?, ?, ?, ?)`,
@@ -47,7 +47,6 @@ await sequelize.query(`CREATE TABLE IF NOT EXISTS institute_${instituteNumber} (
       ],
     }
   );
-
 };
 
 export { createInstitute };

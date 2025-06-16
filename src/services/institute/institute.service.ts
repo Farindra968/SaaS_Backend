@@ -27,11 +27,25 @@ const createInstitute = async (
     createdAT TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAT TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
   )`);
+
+  // adding institute history - 
+  await sequelize.query(`CREATE TABLE IF NOT EXISTS user_institute (
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    userId VARCHAR(225) REFERENCES user(id),
+    userName VARCHAR(225) REFERENCES user(userName),
+    instituteNumber VARCHAR(255) UNIQUE
+    )`);
+  await sequelize.query(
+    `INSERT INTO user_institute (userId, userName, instituteNumber) VALUES (?,?,?)`,
+    {
+      replacements: [user?.id, user?.userName, instituteNumber],
+    }
+  );
+  console.log(user?.id, user?.userName);
   // add instituteNumber as instituteCode in user model
   if (user) {
     await User.update(
-      { role: ROLE_INSTITUTE,
-        instituteCode: instituteNumber },
+      { role: ROLE_INSTITUTE, instituteCode: instituteNumber },
       { where: { id: user?.id } }
     );
   }

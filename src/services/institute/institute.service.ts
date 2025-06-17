@@ -1,16 +1,9 @@
 import sequelize from "../../config/dbConnection";
 import { ROLE_INSTITUTE } from "../../constant/role";
+import { IInstitute, ITeacher } from "../../global";
 import User from "../../models/user.model";
 
-interface IInstitute {
-  instituteName: string;
-  instituteEmail: string;
-  institutePhoneNo: string;
-  instituteAddress: string;
-  instituteVatNo?: string | null;
-  institutePanNo?: string | null;
-}
-
+// create Institute
 const createInstitute = async (
   instituteNumber: Number,
   data: IInstitute,
@@ -28,7 +21,7 @@ const createInstitute = async (
     updatedAT TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
   )`);
 
-  // adding institute history - 
+  // adding institute history -
   await sequelize.query(`CREATE TABLE IF NOT EXISTS user_institute (
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     userId VARCHAR(225) REFERENCES user(id),
@@ -65,4 +58,52 @@ const createInstitute = async (
   );
 };
 
-export { createInstitute };
+// create Teacher
+const createTeacherTable = async (user: any) => {
+  await sequelize.query(`CREATE TABLE IF NOT EXISTS teacher_${user?.instituteCode} (
+    id INIT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    teacherName VARCHAR(255) NOT NULL,
+    teacherEmail VARCHAR(255) NOT NULL UNIQUE,
+    teacherPhone VARCHAR(255) NOT NULL UNIQUE,
+    teacherAddress VARCHAR(255) NOT NULL UNIQUE,
+        createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    )`);
+};
+
+// create Teacher
+const createStudentTable = async (user: any) => {
+  await sequelize.query(`CREATE TABLE IF NOT EXISTS teacher_${user?.instituteCode} (
+    id INIT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    studentName VARCHAR(255) NOT NULL,
+    studentEmail VARCHAR(255) NOT NULL UNIQUE,
+    studentPhone VARCHAR(255) NOT NULL UNIQUE,
+    studentAddress VARCHAR(255) NOT NULL UNIQUE,
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    )`);
+};
+
+// createCourseTable
+const createCourseTable = async (user: any) => {
+  await sequelize.query(`
+  CREATE TABLE IF NOT EXISTS teacher_${user?.instituteCode} (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    courseName VARCHAR(255) NOT NULL,
+    coursePrice DECIMAL(10, 2) NOT NULL,
+    courseCategory VARCHAR(100) NOT NULL,
+    courseDescription TEXT,
+    courseDuration INT, -- Duration in hours/days
+    isPublished BOOLEAN DEFAULT false,
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  )
+`);
+};
+
+export {
+  createInstitute,
+  createTeacherTable,
+  createStudentTable,
+  createCourseTable,
+};

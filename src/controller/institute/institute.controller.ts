@@ -1,12 +1,16 @@
-import { Request, Response } from "express";
-import { createInstitute } from "../../services/institute/institute.service";
+import { NextFunction, Request, Response } from "express";
+import {
+  createInstitute,
+  createTeacherTable,
+  createStudentTable,
+  createCourseTable,
+} from "../../services/institute/institute.service";
 import generateRandomInsituteNumber from "../../utils/generateRandomInsituteNumber";
 import { IExtendRequest } from "../../global";
 
-
-
 class InstituteController {
-  static async createInstitute(req: IExtendRequest, res: Response) {
+  // create Institute
+  static async createInstitute(req: IExtendRequest, res: Response, next:NextFunction) {
     try {
       const {
         instituteName,
@@ -15,7 +19,7 @@ class InstituteController {
         instituteAddress,
       } = req.body;
       const userData = req.user;
-      console.log(`This is user data = ${userData}`)
+      console.log(`This is user data = ${userData}`);
       const instituteVatNo = req.body.instituteVatNo || null;
       const institutePanNo = req.body.institutePanNo || null;
 
@@ -50,9 +54,46 @@ class InstituteController {
         data,
         instituteNumber,
       });
+      next()
     } catch (error) {
       console.error(error);
       res.status(500).send("Internal Server Error");
+    }
+  }
+
+  // create teacher
+  static async createTeacherTable(req: IExtendRequest, res: Response, next:NextFunction) {
+    try {
+      const userData = req.user;
+      const teacherTable = await createTeacherTable(userData);
+      res.status(201).json({ teacherTable, message: "Teacher Table Created" });
+      next()
+    } catch (error) {
+      res.status(500).send(error);
+    }
+  }
+
+  // create Student
+  static async createStudentTable(req: IExtendRequest, res: Response, next:NextFunction) {
+    try {
+      const userData = req.user;
+      const studentTable = await createStudentTable(userData);
+      res.status(201).json({ studentTable, message: "Student Table Created" });
+      next();
+    } catch (error) {
+      res.status(500).send(error);
+    }
+  }
+
+  // create Course
+  static async createCourseTable(req: IExtendRequest, res: Response, next:NextFunction) {
+    try {
+      const userData = req.user;
+      const CourseTable = await createCourseTable(userData);
+      res.status(201).json({ CourseTable, message: "Course Table Created" });
+      next
+    } catch (error) {
+      res.status(500).send(error);
     }
   }
 }

@@ -6,7 +6,25 @@ export interface IExtendRequest extends Request {
     email: string;
     role: string;
     userName: string | null;
-    instituteCode: number[] | string[]
+    instituteCode?: number[] | string[]
   };
 
+}
+
+export interface IInstitute {
+  instituteName: string;
+  instituteEmail: string;
+  institutePhoneNo: string;
+  instituteAddress: string;
+  instituteVatNo?: string | null;
+  institutePanNo?: string | null;
+}
+
+
+
+export interface ITeacher {
+  teacherName:string, 
+  teacherEmail:string,
+  teacherPhone:string, 
+  teacherAddress:string
 }

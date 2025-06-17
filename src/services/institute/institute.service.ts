@@ -61,7 +61,7 @@ const createInstitute = async (
 // create Teacher
 const createTeacherTable = async (user: any) => {
   await sequelize.query(`CREATE TABLE IF NOT EXISTS teacher_${user?.instituteCode} (
-    id INIT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     teacherName VARCHAR(255) NOT NULL,
     teacherEmail VARCHAR(255) NOT NULL UNIQUE,
     teacherPhone VARCHAR(255) NOT NULL UNIQUE,
@@ -74,7 +74,7 @@ const createTeacherTable = async (user: any) => {
 // create Teacher
 const createStudentTable = async (user: any) => {
   await sequelize.query(`CREATE TABLE IF NOT EXISTS teacher_${user?.instituteCode} (
-    id INIT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     studentName VARCHAR(255) NOT NULL,
     studentEmail VARCHAR(255) NOT NULL UNIQUE,
     studentPhone VARCHAR(255) NOT NULL UNIQUE,

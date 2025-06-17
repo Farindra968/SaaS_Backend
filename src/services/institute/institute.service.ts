@@ -4,11 +4,7 @@ import { IInstitute, ITeacher } from "../../global";
 import User from "../../models/user.model";
 
 // create Institute
-const createInstitute = async (
-  instituteNumber: Number,
-  data: IInstitute,
-  user: any
-) => {
+const createInstitute = async (instituteNumber: Number, data: IInstitute) => {
   await sequelize.query(`CREATE TABLE IF NOT EXISTS institute_${instituteNumber} (
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     instituteName VARCHAR(255) NOT NULL,
@@ -21,6 +17,22 @@ const createInstitute = async (
     updatedAT TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
   )`);
 
+  await sequelize.query(
+    `INSERT INTO institute_${instituteNumber} (instituteName, instituteEmail, institutePhoneNo, instituteAddress, instituteVatNo, institutePanNo) VALUES (?, ?, ?, ?, ?, ?)`,
+    {
+      replacements: [
+        data.instituteName,
+        data.instituteEmail,
+        data.institutePhoneNo,
+        data.instituteAddress,
+        data.instituteVatNo || null,
+        data.institutePanNo || null,
+      ],
+    }
+  );
+};
+
+const userinstituteHistory = async (user: any, instituteNumber: Number) => {
   // adding institute history -
   await sequelize.query(`CREATE TABLE IF NOT EXISTS user_institute (
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
@@ -45,22 +57,7 @@ const createInstitute = async (
       { where: { id: user.id } }
     );
   }
-
-  await sequelize.query(
-    `INSERT INTO institute_${instituteNumber} (instituteName, instituteEmail, institutePhoneNo, instituteAddress, instituteVatNo, institutePanNo) VALUES (?, ?, ?, ?, ?, ?)`,
-    {
-      replacements: [
-        data.instituteName,
-        data.instituteEmail,
-        data.institutePhoneNo,
-        data.instituteAddress,
-        data.instituteVatNo || null,
-        data.institutePanNo || null,
-      ],
-    }
-  );
 };
-
 // create Teacher
 const createTeacherTable = async (instituteNumber: Number) => {
   await sequelize.query(`CREATE TABLE IF NOT EXISTS teacher_${instituteNumber} (
@@ -106,6 +103,7 @@ const createCourseTable = async (instituteNumber: Number) => {
 
 export {
   createInstitute,
+  userinstituteHistory,
   createTeacherTable,
   createStudentTable,
   createCourseTable,

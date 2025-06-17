@@ -4,6 +4,7 @@ import {
   createTeacherTable,
   createStudentTable,
   createCourseTable,
+  userinstituteHistory,
 } from "../../services/institute/institute.service";
 import generateRandomInsituteNumber from "../../utils/generateRandomInsituteNumber";
 import { IExtendRequest } from "../../global";
@@ -51,15 +52,11 @@ class InstituteController {
       // Generate unique institute number
       const instituteNumber = generateRandomInsituteNumber();
       console.log(`This is institute Number ==== ${instituteNumber}`);
-      req.instituteNumber = instituteNumber
-      console.log(`This is request Institute Number ${req.instituteNumber}`)
+      req.instituteNumber = instituteNumber;
+      console.log(`This is request Institute Number ${req.instituteNumber}`);
 
       // Pass req.body directly (ensure your service expects this shape)
-      const instituteTable = await createInstitute(
-        instituteNumber,
-        req.body,
-        userData,
-      );
+      const instituteTable = await createInstitute(instituteNumber, req.body);
       next();
     } catch (error) {
       console.error(error);
@@ -67,6 +64,24 @@ class InstituteController {
     }
   }
 
+  // create teacher
+  static async userinstituteHistory(
+    req: IExtendRequest,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const instituteNumber: any = req?.instituteNumber;
+      const userData = req.user;
+      const historyTable = await userinstituteHistory(
+        userData,
+        instituteNumber
+      );
+      next();
+    } catch (error) {
+      res.status(500).send(error);
+    }
+  }
   // create teacher
   static async createTeacherTable(
     req: IExtendRequest,
@@ -101,7 +116,7 @@ class InstituteController {
   static async createCourseTable(req: IExtendRequest, res: Response) {
     try {
       const instituteNumber: any = req?.instituteNumber;
-      console.log(req?.instituteNumber)
+      console.log(req?.instituteNumber);
       const CourseTable = await createCourseTable(instituteNumber);
       res.status(201).json({
         istituteCode: `${instituteNumber}, ${req.instituteNumber}`,

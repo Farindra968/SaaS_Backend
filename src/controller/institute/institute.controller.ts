@@ -23,6 +23,7 @@ class InstituteController {
         instituteAddress,
       } = req.body;
       const userData = req.user;
+      const reqInstituteNo = req.instituteNumber;
       console.log(`This is user data = ${userData}`);
       const instituteVatNo = req.body.instituteVatNo || null;
       const institutePanNo = req.body.institutePanNo || null;
@@ -49,10 +50,16 @@ class InstituteController {
 
       // Generate unique institute number
       const instituteNumber = generateRandomInsituteNumber();
+      console.log(`This is institute Number ==== ${instituteNumber}`);
+      req.instituteNumber = instituteNumber
+      console.log(`This is request Institute Number ${req.instituteNumber}`)
 
       // Pass req.body directly (ensure your service expects this shape)
-      const data = await createInstitute(instituteNumber, req.body, req.user);
-
+      const instituteTable = await createInstitute(
+        instituteNumber,
+        req.body,
+        userData,
+      );
       next();
     } catch (error) {
       console.error(error);
@@ -67,8 +74,8 @@ class InstituteController {
     next: NextFunction
   ) {
     try {
-      const userData = req.user;
-      const teacherTable = await createTeacherTable(userData);
+      const instituteNumber: any = req?.instituteNumber;
+      const teacherTable = await createTeacherTable(instituteNumber);
       next();
     } catch (error) {
       res.status(500).send(error);
@@ -82,8 +89,8 @@ class InstituteController {
     next: NextFunction
   ) {
     try {
-      const userData = req.user;
-      const studentTable = await createStudentTable(userData);
+      const instituteNumber: any = req?.instituteNumber;
+      const studentTable = await createStudentTable(instituteNumber);
       next();
     } catch (error) {
       res.status(500).send(error);
@@ -91,21 +98,16 @@ class InstituteController {
   }
 
   // create Course
-  static async createCourseTable(
-    req: IExtendRequest,
-    res: Response,
-    next: NextFunction
-  ) {
+  static async createCourseTable(req: IExtendRequest, res: Response) {
     try {
-      const userData = req.user;
-      const CourseTable = await createCourseTable(userData);
-      res
-        .status(201)
-        .json({
-          istituteCode: userData?.instituteCode,
-          message:
-            "Institute Created successfully with Teacher Table, Student Table, & Course Table",
-        });
+      const instituteNumber: any = req?.instituteNumber;
+      console.log(req?.instituteNumber)
+      const CourseTable = await createCourseTable(instituteNumber);
+      res.status(201).json({
+        istituteCode: `${instituteNumber}, ${req.instituteNumber}`,
+        message:
+          "Institute Created successfully with Teacher Table, Student Table, & Course Table",
+      });
     } catch (error) {
       res.status(500).send(error);
     }

@@ -28,18 +28,21 @@ const createInstitute = async (
     userName VARCHAR(225) REFERENCES user(userName),
     instituteNumber VARCHAR(255) UNIQUE
     )`);
-  await sequelize.query(
-    `INSERT INTO user_institute (userId, userName, instituteNumber) VALUES (?,?,?)`,
-    {
-      replacements: [user?.id, user?.userName, instituteNumber],
-    }
-  );
-  console.log(user?.id, user?.userName);
-  // add instituteNumber as instituteCode in user model
+
   if (user) {
+    await sequelize.query(
+      `INSERT INTO user_institute (userId, userName, instituteNumber) VALUES (?,?,?)`,
+      {
+        replacements: [user?.id, user?.userName, instituteNumber],
+      }
+    );
+    // add instituteNumber as instituteCode in user model
     await User.update(
-      { role: ROLE_INSTITUTE, instituteCode: instituteNumber },
-      { where: { id: user?.id } }
+      {
+        instituteCode: instituteNumber,
+        role: ROLE_INSTITUTE,
+      },
+      { where: { id: user.id } }
     );
   }
 
@@ -59,8 +62,8 @@ const createInstitute = async (
 };
 
 // create Teacher
-const createTeacherTable = async (user: any) => {
-  await sequelize.query(`CREATE TABLE IF NOT EXISTS teacher_${user?.instituteCode} (
+const createTeacherTable = async (instituteNumber: Number) => {
+  await sequelize.query(`CREATE TABLE IF NOT EXISTS teacher_${instituteNumber} (
 id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     teacherName VARCHAR(255) NOT NULL,
     teacherEmail VARCHAR(255) NOT NULL UNIQUE,
@@ -72,8 +75,8 @@ id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
 };
 
 // create Teacher
-const createStudentTable = async (user: any) => {
-  await sequelize.query(`CREATE TABLE IF NOT EXISTS teacher_${user?.instituteCode} (
+const createStudentTable = async (instituteNumber: Number) => {
+  await sequelize.query(`CREATE TABLE IF NOT EXISTS student_${instituteNumber} (
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     studentName VARCHAR(255) NOT NULL,
     studentEmail VARCHAR(255) NOT NULL UNIQUE,
@@ -85,9 +88,9 @@ const createStudentTable = async (user: any) => {
 };
 
 // createCourseTable
-const createCourseTable = async (user: any) => {
+const createCourseTable = async (instituteNumber: Number) => {
   await sequelize.query(`
-  CREATE TABLE IF NOT EXISTS teacher_${user?.instituteCode} (
+  CREATE TABLE IF NOT EXISTS course_${instituteNumber} (
     id INT PRIMARY KEY AUTO_INCREMENT,
     courseName VARCHAR(255) NOT NULL,
     coursePrice DECIMAL(10, 2) NOT NULL,

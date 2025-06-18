@@ -66,7 +66,10 @@ id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     teacherEmail VARCHAR(255) NOT NULL UNIQUE,
     teacherPhone VARCHAR(255) NOT NULL UNIQUE,
     teacherAddress VARCHAR(255) NOT NULL UNIQUE,
-        createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    teacherDescription TEXT,
+    teacherExpert ENUM("junior", "mid", "expert") NOT NULL DEFAULT 'junior',
+    teacherStatus ENUM("pending", "active", "suspended") NOT NULL DEFAULT "pending",
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
     )`);
 };
@@ -79,6 +82,7 @@ const createStudentTable = async (instituteNumber: Number) => {
     studentEmail VARCHAR(255) NOT NULL UNIQUE,
     studentPhone VARCHAR(255) NOT NULL UNIQUE,
     studentAddress VARCHAR(255) NOT NULL UNIQUE,
+    studentStatus ENUM("pending", "active", "suspended") NOT NULL  DEFAULT "pending"
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
     )`);

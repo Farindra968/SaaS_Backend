@@ -9,8 +9,10 @@ const createInstitute = async (instituteNumber: Number, data: IInstitute) => {
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     instituteName VARCHAR(255) NOT NULL,
     instituteEmail VARCHAR(255) NOT NULL UNIQUE,
-    institutePhoneNo VARCHAR(255) NOT NULL UNIQUE ,
+    institutePhoneNo VARCHAR(255) NOT NULL UNIQUE,
     instituteAddress VARCHAR(255),
+    instituteDescription TEXT,
+    instituteLogo VARCHAR(255),
     instituteVatNo VARCHAR(255),
     institutePanNo VARCHAR(255),
     createdAT TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -18,7 +20,7 @@ const createInstitute = async (instituteNumber: Number, data: IInstitute) => {
   )`);
 
   await sequelize.query(
-    `INSERT INTO institute_${instituteNumber} (instituteName, instituteEmail, institutePhoneNo, instituteAddress, instituteVatNo, institutePanNo) VALUES (?, ?, ?, ?, ?, ?)`,
+    `INSERT INTO institute_${instituteNumber} (instituteName, instituteEmail, institutePhoneNo, instituteAddress, instituteVatNo, institutePanNo ) VALUES (?,?,?,?,?,?)`,
     {
       replacements: [
         data.instituteName,
@@ -66,7 +68,8 @@ id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     teacherEmail VARCHAR(255) NOT NULL UNIQUE,
     teacherPhone VARCHAR(255) NOT NULL UNIQUE,
     teacherAddress VARCHAR(255) NOT NULL UNIQUE,
-    teacherDescription TEXT,
+    teacherBio TEXT,
+    teacherProfile VARCHAR(255),
     teacherExpert ENUM("junior", "mid", "expert") NOT NULL DEFAULT 'junior',
     teacherStatus ENUM("pending", "active", "suspended") NOT NULL DEFAULT "pending",
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -82,7 +85,10 @@ const createStudentTable = async (instituteNumber: Number) => {
     studentEmail VARCHAR(255) NOT NULL UNIQUE,
     studentPhone VARCHAR(255) NOT NULL UNIQUE,
     studentAddress VARCHAR(255) NOT NULL UNIQUE,
-    studentStatus ENUM("pending", "active", "suspended") NOT NULL  DEFAULT "pending"
+    studentBio TEXT,
+    studentProfile VARCHAR(255),
+    enrolledDate Date,
+    studentStatus ENUM("pending", "active", "suspended") NOT NULL  DEFAULT "pending",
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
     )`);
@@ -97,7 +103,8 @@ const createCourseTable = async (instituteNumber: Number) => {
     coursePrice DECIMAL(10, 2) NOT NULL,
     courseCategory VARCHAR(100) NOT NULL,
     courseDescription TEXT,
-    courseDuration INT, -- Duration in hours/days
+    courseDuration VARCHAR(100),
+    courseLevel ENUM("beginner","intermediate","advance") NOT NULL DEFAULT "beginner",
     isPublished BOOLEAN DEFAULT false,
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP

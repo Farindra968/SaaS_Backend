@@ -17,6 +17,8 @@ export interface IInstitute {
   instituteEmail: string;
   institutePhoneNo: string;
   instituteAddress: string;
+  instituteDescription:string;
+  instituteLogo:string;
   instituteVatNo?: string | null;
   institutePanNo?: string | null;
 }

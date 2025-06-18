@@ -6,6 +6,7 @@ export interface IExtendRequest extends Request {
     email: string;
     role: string;
     userName: string | null;
+    instituteCode: string | number
   };
   instituteNumber ?: number | string
 
@@ -23,6 +24,19 @@ export interface IInstitute {
   institutePanNo?: string | null;
 }
 
+export interface ICourse {
+  id?: number; // Optional, usually auto-generated
+  courseName: string;
+  coursePrice: number; // Since you're using DECIMAL(10, 2)
+  courseCategory: string;
+  courseImage: string;
+  courseDescription?: string;
+  courseDuration?: string;
+  courseLevel: "beginner" | "intermediate" | "advance";
+  isPublished?: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
 
 
 export interface ITeacher {

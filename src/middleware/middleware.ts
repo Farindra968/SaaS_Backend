@@ -5,7 +5,6 @@ import jwt from "jsonwebtoken";
 import envConfig from "../config/config";
 import { IExtendRequest } from "../global";
 
-
 class Middleware {
   static async isLoggedIn(
     req: IExtendRequest,
@@ -27,7 +26,9 @@ class Middleware {
         res.status(401).send("Invalid or expired token");
         return;
       }
-      const userData = await User.findByPk(data.id);
+      const userData = await User.findByPk(data.id, {
+        attributes: ["id", "userName", "email", "role", "instituteCode"],
+      });
       if (!userData) {
         res.status(404).send("User not found");
         return;

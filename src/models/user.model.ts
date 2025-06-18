@@ -56,7 +56,7 @@ class User extends Model {
   @Column({
     type: DataType.STRING
   })
-  declare instituteCode:string[]
+  declare instituteCode:string
 
   @Column({
     type: DataType.ENUM(ROLE_SUPERADMIN, ROLE_ADMIN, ROLE_INSTITUTE, ROLE_TEACHER, ROLE_STUDENT), // Use ENUM for user roles

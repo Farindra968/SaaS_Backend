@@ -102,6 +102,7 @@ const createCourseTable = async (instituteNumber: Number) => {
     courseName VARCHAR(255) NOT NULL,
     coursePrice DECIMAL(10, 2) NOT NULL,
     courseCategory VARCHAR(100) NOT NULL,
+    courseImage  VARCHAR(255),
     courseDescription TEXT,
     courseDuration VARCHAR(100),
     courseLevel ENUM("beginner","intermediate","advance") NOT NULL DEFAULT "beginner",

@@ -8,7 +8,7 @@ import {
 } from "../../../services/institute/course/course.service";
 
 class CourseController {
-  // create Course
+  // create Coursec - ✔
   static async createCourse(req: IExtendRequest, res: Response) {
     const {
       courseName,
@@ -19,8 +19,9 @@ class CourseController {
       courseImage,
       courseLevel,
     } = req.body;
-    const instituteNumber: any = req.user?.instituteCode;
-    
+    const instituteNumber:any = req.user?.instituteCode;
+    console.log("instituteNumber from User Model == controller", instituteNumber);
+
     // validation
     if (
       !courseName ||
@@ -39,10 +40,10 @@ class CourseController {
     }
     const courseData = await createCourse(req.body, instituteNumber);
     console.log(courseData);
-    res.status(201).json({ message: "Course Add Successfully", courseData });
+    res.status(201).json({ message: "Course Add Successfully", number: instituteNumber, data: courseData });
   }
 
-  // delete Course
+  // delete Course - ✔
   static async deleteCourse(req: IExtendRequest, res: Response) {
     //1. course id required:
     const { courseId } = req.params;
@@ -63,7 +64,7 @@ class CourseController {
     res.status(200).json({ message: "Course fetch Successfully", data:allCourse });
   }
 
-  //get Single Course = 
+  //get Single Course = ✔ 
   static async getSingleCourse(req: IExtendRequest, res: Response) {
     //1. course id required
     const { courseId } = req.params;

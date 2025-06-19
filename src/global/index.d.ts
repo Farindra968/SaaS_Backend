@@ -6,7 +6,7 @@ export interface IExtendRequest extends Request {
     email: string;
     role: string;
     userName: string | null;
-    instituteCode: string | number
+    instituteCode: string
   };
   instituteNumber ?: number | string
 

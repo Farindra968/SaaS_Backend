@@ -8,4 +8,7 @@ const router:Router = express.Router();
 router.route("/").get(Middleware.isLoggedIn, asyncHandler(CourseController.getAllCourse))
 router.route("/add").post(Middleware.isLoggedIn, asyncHandler(CourseController.createCourse))
 
+//dynamic route
+router.route("/:courseId").get(Middleware.isLoggedIn, asyncHandler(CourseController.getSingleCourse)).delete(Middleware.isLoggedIn, asyncHandler(CourseController.deleteCourse))
+
 export default router

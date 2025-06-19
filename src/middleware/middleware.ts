@@ -11,7 +11,8 @@ class Middleware {
     res: Response,
     next: NextFunction
   ) {
-    const authToken = req.headers.authorization;
+    try {
+      const authToken = req.headers.authorization;
     console.log(`==========> ${authToken}`);
 
     if (!authToken) {
@@ -23,14 +24,14 @@ class Middleware {
 
     jwt.verify(authToken, envConfig.jsonSecret!, async (error, data: any) => {
       if (error || !data) {
-        res.status(401).send("Invalid or expired token");
+        res.status(401).json({message:"Invalid or expired token"});
         return;
       }
       const userData = await User.findByPk(data.id, {
         attributes: ["id", "userName", "email", "role", "instituteCode"],
       });
       if (!userData) {
-        res.status(404).send("User not found");
+        res.status(404).json({message:"User not found"});
         return;
       }
       req.user = data;
@@ -52,6 +53,9 @@ class Middleware {
       .catch(() => {
         res.status(401).send("Invalid or Expired Token")
       });*/
+    } catch (error) {
+      res.status(500).json({message:"Internal Server Error", error: error instanceof Error ? error.message : "Unknown error"});
+    }
   }
 }
 

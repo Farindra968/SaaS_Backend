@@ -7,6 +7,7 @@ import courseRoute from "./routes/institute/course/course.routes"
 const app = express();
 
 app.use(express.json()) // body parser middleware to parse JSON requests
+app.use(express.urlencoded({ extended: true })); // body parser middleware to parse URL-encoded requests
 
 app.get("/", (req, res)=>{
     res.json({

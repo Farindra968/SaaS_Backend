@@ -16,9 +16,10 @@ class CourseController {
       courseCategory,
       courseDuration,
       courseDescription,
-      courseImage,
       courseLevel,
     } = req.body;
+    const courseImage = req.file ? req.file?.path : null; // Assuming you are using multer for file upload
+    console.log("courseImage from User Model == controller", courseImage);
     const instituteNumber:any = req.user?.instituteCode;
     console.log("instituteNumber from User Model == controller", instituteNumber);
 
@@ -38,9 +39,9 @@ class CourseController {
       });
       return;
     }
-    const courseData = await createCourse(req.body, instituteNumber);
+    const courseData = await createCourse(req.body, courseImage, instituteNumber);
     console.log(courseData);
-    res.status(201).json({ message: "Course Add Successfully", number: instituteNumber, data: courseData });
+    res.status(201).json({ message: "Course Add Successfully",});
   }
 
   // delete Course - ✔

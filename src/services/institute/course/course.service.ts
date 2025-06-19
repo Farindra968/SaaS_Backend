@@ -4,8 +4,8 @@ import { ICourse } from "../../../global";
 
 // create course
 // This function creates a new course in the database for a specific institute.
-const createCourse = async (Data: ICourse, instituteNumber: string) => {
-  await sequelize.query(
+const createCourse = async (Data: ICourse, courseImage:string, instituteNumber: string) => {
+  const courseData = await sequelize.query(
     ` INSERT INTO course_${instituteNumber} (courseName, coursePrice, courseCategory, courseDuration, courseDescription, courseLevel, courseImage) VALUES(?,?,?,?,?,?,?)`,
     {
       replacements: [
@@ -15,10 +15,11 @@ const createCourse = async (Data: ICourse, instituteNumber: string) => {
         Data.courseDuration,
         Data.courseDescription,
         Data.courseLevel,
-        Data.courseImage,
+        courseImage,
       ],
     }
   );
+  return courseData[0];
 };
 
 // deleteCourse

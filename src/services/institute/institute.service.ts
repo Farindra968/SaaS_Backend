@@ -113,6 +113,16 @@ const createCourseTable = async (instituteNumber: Number) => {
 `);
 };
 
+const createCourseCategoryTable = async (instituteNumber: Number, ) => {
+  await sequelize.query(`CREATE TABLE IF NOT EXISTS courseCategory_${instituteNumber} (
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    categoryName VARCHAR(255) NOT NULL UNIQUE,
+    categoryDescription TEXT,
+    categoryImage VARCHAR(255),
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP  ON UPDATE CURRENT_TIMESTAMP)`)
+}
+
 export {
   createInstitute,
   userinstituteHistory,

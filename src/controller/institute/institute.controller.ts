@@ -129,6 +129,16 @@ class InstituteController {
       res.status(500).send(error);
     }
   }
+
+  // create Course Category
+  static async createCourseCategoryTable(req:IExtendRequest, res:Response, next: NextFunction) {
+    try {
+      const instituteNumber:any = req?.user?.instituteCode;
+      
+    } catch (error) {
+      
+    }
+  }
 }
 
 export default InstituteController;

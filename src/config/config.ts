@@ -14,7 +14,7 @@ const envConfig = {
     jsonSecret: process.env.JSON_SECRET,
     // cloudinary
     cloudinaryName: process.env.CLOUDINARY_NAME,
-    cloudinaryKey: process.env.CLOUDINARY_AP_KEY,
+    cloudinaryKey: process.env.CLOUDINARY_API_KEY,
     cloudinarySecret: process.env.CLOUDINARY_API_SECRET,
     cloudinaryFolder: process.env.CLOUDINARY_FOLDER,
 }

@@ -9,6 +9,7 @@ import envConfig from "./config/config";
 import authRoute from "./routes/global/auth/auth.routes";
 import instituteRoute from "./routes/institute/institute.routes";
 import courseRoute from "./routes/institute/course/course.routes";
+import cloudinaryConfig from "./config/cloudinaryConfig"; 
 
 const app = express();
 
@@ -17,7 +18,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // ✅ Cloudinary configuration
-// cloudinaryConfig();
+cloudinaryConfig();
 
 // ✅ Health check endpoint
 app.get("/", (req: Request, res: Response) => {

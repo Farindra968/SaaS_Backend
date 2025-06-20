@@ -24,7 +24,6 @@ class InstituteController {
         instituteAddress,
       } = req.body;
       const userData = req.user;
-      const reqInstituteNo = req.instituteNumber;
       console.log(`This is user data = ${userData}`);
       const instituteVatNo = req.body.instituteVatNo || null;
       const institutePanNo = req.body.institutePanNo || null;
@@ -51,12 +50,14 @@ class InstituteController {
 
       // Generate unique institute number
       const instituteNumber = generateRandomInsituteNumber();
-      console.log(`This is institute Number ==== ${instituteNumber}`);
-      req.instituteNumber = instituteNumber;
-      console.log(`This is request Institute Number ${req.instituteNumber}`);
-
+      
       // Pass req.body directly (ensure your service expects this shape)
       const instituteTable = await createInstitute(instituteNumber, req.body);
+      // Update the request object with the institute number
+      if(req?.user) {
+        req.user.instituteCode = instituteNumber;
+      }
+
       next();
     } catch (error) {
       console.error(error);
@@ -71,7 +72,7 @@ class InstituteController {
     next: NextFunction
   ) {
     try {
-      const instituteNumber: any = req?.instituteNumber;
+      const instituteNumber: any = req?.user?.instituteCode;
       const userData = req.user;
       const historyTable = await userinstituteHistory(
         userData,
@@ -82,6 +83,7 @@ class InstituteController {
       res.status(500).send(error);
     }
   }
+  
   // create teacher
   static async createTeacherTable(
     req: IExtendRequest,
@@ -89,7 +91,7 @@ class InstituteController {
     next: NextFunction
   ) {
     try {
-      const instituteNumber: any = req?.instituteNumber;
+      const instituteNumber: any = req?.user?.instituteCode;
       const teacherTable = await createTeacherTable(instituteNumber);
       next();
     } catch (error) {
@@ -104,7 +106,7 @@ class InstituteController {
     next: NextFunction
   ) {
     try {
-      const instituteNumber: any = req?.instituteNumber;
+      const instituteNumber: any = req?.user?.instituteCode;
       const studentTable = await createStudentTable(instituteNumber);
       next();
     } catch (error) {
@@ -115,11 +117,11 @@ class InstituteController {
   // create Course
   static async createCourseTable(req: IExtendRequest, res: Response) {
     try {
-      const instituteNumber: any = req?.instituteNumber;
-      console.log(req?.instituteNumber);
+      const instituteNumber: any = req?.user?.instituteCode;
+      console.log(req?.user?.instituteCode);
       const CourseTable = await createCourseTable(instituteNumber);
       res.status(201).json({
-        istituteCode: `${instituteNumber}, ${req.instituteNumber}`,
+        istituteCode: `${instituteNumber}, ${req.user?.instituteCode}`,
         message:
           "Institute Created successfully with Teacher Table, Student Table, & Course Table",
       });

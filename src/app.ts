@@ -1,30 +1,38 @@
-import express from "express";
+import express, {
+  Request,
+  Response,
+} from "express";
+
 import envConfig from "./config/config";
-import authRoute from "./routes/global/auth/auth.routes"
-import instituteRoute from "./routes/institute/institute.routes"
-import courseRoute from "./routes/institute/course/course.routes"
+
+// Route Imports
+import authRoute from "./routes/global/auth/auth.routes";
+import instituteRoute from "./routes/institute/institute.routes";
+import courseRoute from "./routes/institute/course/course.routes";
 
 const app = express();
 
-app.use(express.json()) // body parser middleware to parse JSON requests
-app.use(express.urlencoded({ extended: true })); // body parser middleware to parse URL-encoded requests
+// ✅ Middleware to parse JSON and URL-encoded requests
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.get("/", (req, res)=>{
-    res.json({
-        name: "SaaS Edu",
-        description: "A SaaS application for educational purposes",
-        version: "1.0.0",
-        author: "Farindra",
-        port: envConfig.portNumber
-    })
-})
+// ✅ Cloudinary configuration
+// cloudinaryConfig();
 
-// Routes
-//auth routes
-app.use("/api/auth", authRoute)
+// ✅ Health check endpoint
+app.get("/", (req: Request, res: Response) => {
+  res.json({
+    name: "SaaS Edu",
+    description: "A SaaS application for educational purposes",
+    version: "1.0.0",
+    author: "Farindra",
+    port: envConfig.portNumber,
+  });
+});
 
-// institute route
-app.use("/api/institute", instituteRoute)
-//course route
-app.use("/api/institute/course", courseRoute)
+// ✅ API Routes
+app.use("/api/auth", authRoute);
+app.use("/api/institute", instituteRoute);
+app.use("/api/institute/course", courseRoute);
+
 export default app;

@@ -3,9 +3,10 @@ import CourseController from "../../../controller/institute/course/course.contro
 import Middleware from "../../../middleware/middleware";
 import asyncHandler from "../../../utils/asyncHandler";
 import multer from "multer";
-import { cloudinary, storage } from "../../../config/cloudinaryConfig";
+import cloudinaryConfig from "../../../config/cloudinaryConfig"; // Import Cloudinary configuration
 
-const upload = multer({ storage: storage });
+cloudinaryConfig(); // Initialize Cloudinary configuration
+const upload = multer({ storage: multer.memoryStorage() });
 
 const router:Router = express.Router();
 

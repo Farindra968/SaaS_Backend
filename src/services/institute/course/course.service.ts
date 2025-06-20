@@ -1,10 +1,12 @@
 import sequelize from "../../../config/dbConnection";
 import { ICourse } from "../../../global";
+import uploadFile from "../../../utils/file";
 
 
 // create course
 // This function creates a new course in the database for a specific institute.
-const createCourse = async (Data: ICourse, courseImage:string, instituteNumber: string) => {
+const createCourse = async (Data: ICourse, courseImage: Express.Multer.File, instituteNumber: string) => {
+  const uploadCourseImage = await uploadFile([courseImage]);
   const courseData = await sequelize.query(
     ` INSERT INTO course_${instituteNumber} (courseName, coursePrice, courseCategory, courseDuration, courseDescription, courseLevel, courseImage) VALUES(?,?,?,?,?,?,?)`,
     {
@@ -15,7 +17,7 @@ const createCourse = async (Data: ICourse, courseImage:string, instituteNumber: 
         Data.courseDuration,
         Data.courseDescription,
         Data.courseLevel,
-        courseImage,
+        uploadCourseImage[0]?.url,
       ],
     }
   );

@@ -18,7 +18,7 @@ class CourseController {
       courseDescription,
       courseLevel,
     } = req.body;
-    const courseImage = req.file ? req.file?.path : null; // Assuming you are using multer for file upload
+    const courseImage = req.file // Assuming you are using multer for file upload
     console.log("courseImage from User Model == controller", courseImage);
     const instituteNumber:any = req.user?.instituteCode;
     console.log("instituteNumber from User Model == controller", instituteNumber);

@@ -1,20 +1,17 @@
 import { v2 as cloudinary } from "cloudinary";
 import envConfig from "./config";
-import { CloudinaryStorage } from "multer-storage-cloudinary";
 
 // Configuration
-cloudinary.config({
-  cloud_name:  envConfig.cloudinaryName,
-  api_key: envConfig.cloudinaryKey,
-  api_secret: envConfig.cloudinarySecret,
-});
+const cloudinaryConfig = () => {
+  console.log(envConfig.cloudinaryKey)
+  cloudinary.config({
+    cloud_name: "dgmayu5ic", //envConfig.cloudinaryName,
+    api_key: "857433961659282",//envConfig.cloudinaryKey,
+    api_secret: "xO4BYyp2T0KT5I91Kxx4FtJEWgg",//envConfig.cloudinarySecret,
+  });
+  
+};
 
-const storage = new CloudinaryStorage({
-  cloudinary,
-  params: async (req, file) => ({
-    folder: envConfig.cloudinaryFolder,
-    // format: "jpg png webp jpeg pdf",
-  }),
-});
 
-export { cloudinary, storage };
+export default cloudinaryConfig;
+

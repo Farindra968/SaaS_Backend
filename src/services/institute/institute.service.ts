@@ -2,6 +2,7 @@ import sequelize from "../../config/dbConnection";
 import { ROLE_INSTITUTE } from "../../constant/role";
 import { IInstitute, ITeacher } from "../../global";
 import User from "../../models/user.model";
+import { categories } from "../../seed";
 
 // create Institute
 const createInstitute = async (instituteNumber: Number, data: IInstitute) => {
@@ -114,12 +115,21 @@ const createCourseTable = async (instituteNumber: Number) => {
 };
 
 const createCategoryTable = async (instituteNumber: Number, ) => {
+
+  
   await sequelize.query(`CREATE TABLE IF NOT EXISTS courseCategory_${instituteNumber} (
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     categoryName VARCHAR(255) NOT NULL UNIQUE,
     categoryDescription TEXT,
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP  ON UPDATE CURRENT_TIMESTAMP)`)
+
+  // inserting default categories
+  categories.forEach(async(category)=>(
+    await sequelize.query(` INSERT INTO courseCategory_${instituteNumber} (categoryName, categoryDescription) VALUES(?,?)`,{
+      replacements: [category.categoryName, category.categoresDescription]
+    })
+  ))
 }
 
 export {

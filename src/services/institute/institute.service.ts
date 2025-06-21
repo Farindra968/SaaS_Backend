@@ -114,7 +114,7 @@ const createCourseTable = async (instituteNumber: Number) => {
 `);
 };
 
-const createCategoryTable = async (instituteNumber: Number, categoryData:any ) => {
+const createCategoryTable = async (instituteNumber: Number, ) => {
 
   
   await sequelize.query(`CREATE TABLE IF NOT EXISTS courseCategory_${instituteNumber} (
@@ -125,7 +125,7 @@ const createCategoryTable = async (instituteNumber: Number, categoryData:any ) =
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP  ON UPDATE CURRENT_TIMESTAMP)`)
 
   // inserting default categories
-  categoryData.map(async(category:any)=>(
+  categories.map(async(category:any)=>(
     await sequelize.query(` INSERT INTO courseCategory_${instituteNumber} (categoryName, categoryDescription) VALUES(?,?)`,{
       replacements: [category.categoryName, category.categoresDescription]
     })

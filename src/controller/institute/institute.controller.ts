@@ -136,8 +136,7 @@ class InstituteController {
   static async createCategoryTable(req:IExtendRequest, res:Response, next: NextFunction) {
     try {
       const instituteNumber:any = req?.user?.instituteCode;
-        const categoryData:any = categories
-      await createCategoryTable(instituteNumber, categoryData)
+      await createCategoryTable(instituteNumber)
       next()
     } catch (error) {
       res.status(500).send(error)

@@ -12,6 +12,7 @@ router
     InstituteController.userinstituteHistory,
     InstituteController.createTeacherTable,
     InstituteController.createStudentTable,
+    InstituteController.createCategoryTable,
     InstituteController.createCourseTable
   );
 

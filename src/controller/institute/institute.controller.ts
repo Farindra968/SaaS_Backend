@@ -5,6 +5,7 @@ import {
   createStudentTable,
   createCourseTable,
   userinstituteHistory,
+  createCategoryTable,
 } from "../../services/institute/institute.service";
 import generateRandomInsituteNumber from "../../utils/generateRandomInsituteNumber";
 import { IExtendRequest } from "../../global";
@@ -131,12 +132,13 @@ class InstituteController {
   }
 
   // create Course Category
-  static async createCourseCategoryTable(req:IExtendRequest, res:Response, next: NextFunction) {
+  static async createCategoryTable(req:IExtendRequest, res:Response, next: NextFunction) {
     try {
       const instituteNumber:any = req?.user?.instituteCode;
-      
+      await createCategoryTable(instituteNumber)
+      next()
     } catch (error) {
-      
+      res.status(500).send(error)
     }
   }
 }

@@ -125,11 +125,12 @@ const createCategoryTable = async (instituteNumber: Number, ) => {
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP  ON UPDATE CURRENT_TIMESTAMP)`)
 
   // inserting default categories
-  categories.map(async(category:any)=>(
-    await sequelize.query(` INSERT INTO courseCategory_${instituteNumber} (categoryName, categoryDescription) VALUES(?,?)`,{
+  for (const category of categories) {
+      await sequelize.query(` INSERT INTO courseCategory_${instituteNumber} (categoryName, categoryDescription) VALUES(?,?)`,{
       replacements: [category.categoryName, category.categoresDescription]
     })
-  ))
+  }
+
 }
 
 export {

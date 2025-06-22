@@ -21,11 +21,21 @@ const createCategories = async (
 
 // get all categories
 // This function retrieves all categories for a specific institute.
-const getAllCategories = async (instituteNumber: Number) => {
+const getAllCategories = async (instituteNumber: string) => {
   const [result] = await sequelize.query(
     `SELECT * FROM courseCategory_${instituteNumber}`
   );
   return result;
 };
 
-export { createCategories, getAllCategories };
+// delete category
+const deleteCategories = async (instituteNumber: Number, categoryId: any) => {
+  await sequelize.query(
+    `DELETE FROM courseCategory_${instituteNumber} WHERE id = ?`,
+    {
+      replacements: [categoryId],
+    }
+  );
+};
+
+export { createCategories, getAllCategories, deleteCategories };

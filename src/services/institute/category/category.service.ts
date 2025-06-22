@@ -1,3 +1,4 @@
+import { QueryTypes } from "sequelize";
 import sequelize from "../../../config/dbConnection";
 
 interface ICategoryData {
@@ -14,6 +15,7 @@ const createCategories = async (
   await sequelize.query(
     ` INSERT INTO courseCategory_${instituteNumber} (categoryName, categoryDescription) VALUES(?,?)`,
     {
+      type: QueryTypes.INSERT,
       replacements: [data.categoryName, data.categoryDescription],
     }
   );
@@ -23,7 +25,7 @@ const createCategories = async (
 // This function retrieves all categories for a specific institute.
 const getAllCategories = async (instituteNumber: string) => {
   const [result] = await sequelize.query(
-    `SELECT * FROM courseCategory_${instituteNumber}`
+    `SELECT * FROM courseCategory_${instituteNumber}`, {type: QueryTypes.SELECT}
   );
   return result;
 };
@@ -33,6 +35,7 @@ const deleteCategories = async (instituteNumber: Number, categoryId: any) => {
   await sequelize.query(
     `DELETE FROM courseCategory_${instituteNumber} WHERE id = ?`,
     {
+      type: QueryTypes.DELETE,
       replacements: [categoryId],
     }
   );

@@ -7,7 +7,7 @@ import { categories } from "../../seed";
 // create Institute
 const createInstitute = async (instituteNumber: Number, data: IInstitute) => {
   await sequelize.query(`CREATE TABLE IF NOT EXISTS institute_${instituteNumber} (
-    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    id VARCHAR(36) PRIMARY KEY NOT NULL UNIQUE DEFAULT (UUID()),
     instituteName VARCHAR(255) NOT NULL,
     instituteEmail VARCHAR(255) NOT NULL UNIQUE,
     institutePhoneNo VARCHAR(255) NOT NULL UNIQUE,
@@ -38,7 +38,7 @@ const createInstitute = async (instituteNumber: Number, data: IInstitute) => {
 const userinstituteHistory = async (user: any, instituteNumber: Number) => {
   // adding institute history -
   await sequelize.query(`CREATE TABLE IF NOT EXISTS user_institute (
-    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    id VARCHAR(36) PRIMARY KEY NOT NULL UNIQUE DEFAULT (UUID()),
     userId VARCHAR(225) REFERENCES user(id),
     userName VARCHAR(225) REFERENCES user(userName),
     instituteNumber VARCHAR(255) UNIQUE
@@ -64,7 +64,7 @@ const userinstituteHistory = async (user: any, instituteNumber: Number) => {
 // create Teacher
 const createTeacherTable = async (instituteNumber: Number) => {
   await sequelize.query(`CREATE TABLE IF NOT EXISTS teacher_${instituteNumber} (
-id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+id VARCHAR(36) PRIMARY KEY NOT NULL UNIQUE DEFAULT (UUID()),
     teacherName VARCHAR(255) NOT NULL,
     teacherEmail VARCHAR(255) NOT NULL UNIQUE,
     teacherPhone VARCHAR(255) NOT NULL UNIQUE,
@@ -81,7 +81,7 @@ id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
 // create Teacher
 const createStudentTable = async (instituteNumber: Number) => {
   await sequelize.query(`CREATE TABLE IF NOT EXISTS student_${instituteNumber} (
-    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    id VARCHAR(36) PIMARY KEY NOT NULL UNIQUE DEFAULT (UUID()),
     studentName VARCHAR(255) NOT NULL,
     studentEmail VARCHAR(255) NOT NULL UNIQUE,
     studentPhone VARCHAR(255) NOT NULL UNIQUE,
@@ -99,7 +99,7 @@ const createStudentTable = async (instituteNumber: Number) => {
 const createCourseTable = async (instituteNumber: Number) => {
   await sequelize.query(`
   CREATE TABLE IF NOT EXISTS course_${instituteNumber} (
-    id INT PRIMARY KEY AUTO_INCREMENT,
+    id VARCHAR(36) PRIMARY KEY NOT NULL UNIQUE DEFAULT (UUID()),
     courseName VARCHAR(255) NOT NULL,
     coursePrice DECIMAL(10, 2) NOT NULL,
     courseCategory VARCHAR(100) NOT NULL,
@@ -114,15 +114,13 @@ const createCourseTable = async (instituteNumber: Number) => {
 `);
 };
 
-const createCategoryTable = async (instituteNumber: Number, ) => {
-
-  
+const createCategoryTable = async (instituteNumber: Number) => {
   await sequelize.query(`CREATE TABLE IF NOT EXISTS courseCategory_${instituteNumber} (
-    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    id VARCHAR(36) PRIMARY KEY NOT NULL UNIQUE DEFAULT (UUID()),
     categoryName VARCHAR(255) NOT NULL UNIQUE,
     categoryDescription TEXT,
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP  ON UPDATE CURRENT_TIMESTAMP)`)
+    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP  ON UPDATE CURRENT_TIMESTAMP)`);
 
   // inserting default categories
   // for (const category of categories) {
@@ -130,8 +128,7 @@ const createCategoryTable = async (instituteNumber: Number, ) => {
   //     replacements: [category.categoryName, category.categoresDescription]
   //   })
   // }
-
-}
+};
 
 export {
   createInstitute,

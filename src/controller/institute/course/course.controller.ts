@@ -13,7 +13,7 @@ class CourseController {
     const {
       courseName,
       coursePrice,
-      courseCategory,
+      categoryId,
       courseDuration,
       courseDescription,
       courseLevel,
@@ -30,7 +30,7 @@ class CourseController {
     if (
       !courseName ||
       !coursePrice ||
-      !courseCategory ||
+      !categoryId ||
       !courseDuration ||
       !courseDescription ||
       !courseImage ||

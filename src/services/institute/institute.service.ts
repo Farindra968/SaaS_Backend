@@ -102,11 +102,11 @@ const createCourseTable = async (instituteNumber: Number) => {
     id VARCHAR(36) PRIMARY KEY NOT NULL UNIQUE DEFAULT (UUID()),
     courseName VARCHAR(255) NOT NULL,
     coursePrice DECIMAL(10, 2) NOT NULL,
-    courseCategory VARCHAR(100) NOT NULL,
     courseImage  VARCHAR(255),
     courseDescription TEXT,
     courseDuration VARCHAR(100),
     courseLevel ENUM("beginner","intermediate","advance") NOT NULL DEFAULT "beginner",
+    categoryId VARCHAR(36) NOT NULL REFERENCEs courseCategory_${instituteNumber} (id),
     isPublished BOOLEAN DEFAULT false,
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP

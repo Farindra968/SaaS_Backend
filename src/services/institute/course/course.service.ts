@@ -8,12 +8,12 @@ import uploadFile from "../../../utils/file";
 const createCourse = async (Data: ICourse, courseImage: Express.Multer.File, instituteNumber: string) => {
   const uploadCourseImage = await uploadFile([courseImage]);
   const courseData = await sequelize.query(
-    ` INSERT INTO course_${instituteNumber} (courseName, coursePrice, courseCategory, courseDuration, courseDescription, courseLevel, courseImage) VALUES(?,?,?,?,?,?,?)`,
+    ` INSERT INTO course_${instituteNumber} (courseName, coursePrice, categoryId, courseDuration, courseDescription, courseLevel, courseImage) VALUES(?,?,?,?,?,?,?)`,
     {
       replacements: [
         Data.courseName,
         Data.coursePrice,
-        Data.courseCategory,
+        Data.categoryId,
         Data.courseDuration,
         Data.courseDescription,
         Data.courseLevel,

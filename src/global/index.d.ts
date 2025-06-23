@@ -28,7 +28,7 @@ export interface ICourse {
   id?: number; // Optional, usually auto-generated
   courseName: string;
   coursePrice: number; // Since you're using DECIMAL(10, 2)
-  courseCategory: string;
+  categoryId: string;
   courseImage: string;
   courseDescription?: string;
   courseDuration?: string;

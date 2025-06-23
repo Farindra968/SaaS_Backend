@@ -12,6 +12,7 @@ class CategoryController {
 // This function creates a new category in the database for a specific institute.
 static async createCategory (req: IExtendRequest, res: Response) {
   const instituteNumber: any = req.user?.instituteCode;
+  console.log(`this is category course ===========> ${instituteNumber}`)
   const { categoryName, categoryDescription } = req.body;
 
   if (!categoryName || !categoryDescription) {

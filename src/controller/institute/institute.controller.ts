@@ -9,7 +9,6 @@ import {
 } from "../../services/institute/institute.service";
 import generateRandomInsituteNumber from "../../utils/generateRandomInsituteNumber";
 import { IExtendRequest } from "../../global";
-import { categories } from "../../seed";
 
 class InstituteController {
   // create Institute
@@ -54,7 +53,7 @@ class InstituteController {
       const instituteNumber = generateRandomInsituteNumber();
       
       // Pass req.body directly (ensure your service expects this shape)
-      const instituteTable = await createInstitute(instituteNumber, req.body);
+      const instituteTable = await createInstitute(instituteNumber,  req.body);
       // Update the request object with the institute number
       if(req?.user) {
         req.user.instituteCode = instituteNumber;

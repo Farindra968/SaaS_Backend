@@ -81,7 +81,7 @@ id VARCHAR(36) PRIMARY KEY NOT NULL UNIQUE DEFAULT (UUID()),
 // create Teacher
 const createStudentTable = async (instituteNumber: Number) => {
   await sequelize.query(`CREATE TABLE IF NOT EXISTS student_${instituteNumber} (
-    id VARCHAR(36) PIMARY KEY NOT NULL UNIQUE DEFAULT (UUID()),
+    id VARCHAR(36) PRIMARY KEY NOT NULL UNIQUE DEFAULT (UUID()),
     studentName VARCHAR(255) NOT NULL,
     studentEmail VARCHAR(255) NOT NULL UNIQUE,
     studentPhone VARCHAR(255) NOT NULL UNIQUE,

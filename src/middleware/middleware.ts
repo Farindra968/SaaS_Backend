@@ -34,7 +34,7 @@ class Middleware {
         res.status(404).json({message:"User not found"});
         return;
       }
-      req.user = data;
+      req.user = userData;
 
       next();
     });

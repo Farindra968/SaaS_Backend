@@ -29,8 +29,11 @@ app.get("/", (req: Request, res: Response) => {
     version: "1.0.0",
     author: "Farindra",
     port: envConfig.portNumber,
+    
   });
 });
+
+
 
 // ✅ API Routes
 app.use("/api/auth", authRoute);

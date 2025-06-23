@@ -9,7 +9,6 @@ router
   .post(
     Middleware.isLoggedIn,
     InstituteController.createInstitute,
-    InstituteController.userinstituteHistory,
     InstituteController.createTeacherTable,
     InstituteController.createStudentTable,
     InstituteController.createCategoryTable,

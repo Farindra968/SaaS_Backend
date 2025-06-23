@@ -18,10 +18,13 @@ class CourseController {
       courseDescription,
       courseLevel,
     } = req.body;
-    const courseImage = req.file // Assuming you are using multer for file upload
+    const courseImage = req.file; // Assuming you are using multer for file upload
     console.log("courseImage from User Model == controller", courseImage);
-    const instituteNumber:any = req.user?.instituteCode;
-    console.log("instituteNumber from User Model == controller", instituteNumber);
+    const instituteNumber: any = req.user?.instituteCode;
+    console.log(
+      "instituteNumber from User Model == controller",
+      instituteNumber
+    );
 
     // validation
     if (
@@ -39,9 +42,13 @@ class CourseController {
       });
       return;
     }
-    const courseData = await createCourse(req.body, courseImage, instituteNumber);
+    const courseData = await createCourse(
+      req.body,
+      courseImage,
+      instituteNumber
+    );
     console.log(courseData);
-    res.status(201).json({ message: "Course Add Successfully",});
+    res.status(201).json({ message: "Course Add Successfully" });
   }
 
   // delete Course - ✔
@@ -49,7 +56,7 @@ class CourseController {
     //1. course id required:
     const { courseId } = req.params;
     //2. institute Number required
-    const instituteNumber: any = req.user?.instituteCode;
+    const instituteNumber: any = req?.user?.instituteCode;
 
     const result = await deleteCourse(instituteNumber, courseId);
 
@@ -58,19 +65,24 @@ class CourseController {
 
   // get All Course ‍‍‍‍‍‍= ✔
   static async getAllCourse(req: IExtendRequest, res: Response) {
-    const instituteNumber: any = req.user?.instituteCode;
+    const instituteNumber: any = req?.user?.instituteCode;
+    console.log(
+      `This is institute controller get All Category from req.user.institutecode = ${req.user?.instituteCode}`
+    );
 
     const allCourse = await getAllCourse(instituteNumber);
 
-    res.status(200).json({ message: "Course fetch Successfully", data:allCourse });
+    res
+      .status(200)
+      .json({ message: "Course fetch Successfully", data: allCourse });
   }
 
-  //get Single Course = ✔ 
+  //get Single Course = ✔
   static async getSingleCourse(req: IExtendRequest, res: Response) {
     //1. course id required
     const { courseId } = req.params;
     //2. institute Number is required
-    const instituteNumber: any = req.user?.instituteCode;
+    const instituteNumber: any = req?.user?.instituteCode;
 
     const singleCourse = await getSingleCourse(instituteNumber, courseId);
     if (!singleCourse) {
@@ -78,7 +90,9 @@ class CourseController {
       return;
     }
 
-    res.status(200).json({message:"Data Fetch Successfully", data:singleCourse});
+    res
+      .status(200)
+      .json({ message: "Data Fetch Successfully", data: singleCourse });
   }
 }
 

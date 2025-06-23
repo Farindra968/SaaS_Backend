@@ -50,7 +50,8 @@ const deleteCourse = async (instituteNumber: string, courseId: any) => {
 // get all course
 const getAllCourse = async (instituteNumber: string) => {
   const data = await sequelize.query(
-    `SELECT * FROM course_${instituteNumber}`,
+    `SELECT * FROM course_${instituteNumber} JOIN courseCategory_${instituteNumber} ON course_${instituteNumber}.categoryId = courseCategory_${instituteNumber}.id`,
+    
     { type: QueryTypes.SELECT }
   );
   return data;

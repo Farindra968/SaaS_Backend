@@ -44,9 +44,33 @@ const createTeacher = async (
 
 // get all Teacher
 const getAllTeacher = async (instituteNumber: Number) => {
-  return await sequelize.query(`SELECT teacherName, teacherEmail, teacherPhone, teacherAddress, teacherBio, teacherProfile, teacherSalary, teacherExpert FROM teacher_${instituteNumber} `, {
-    type: QueryTypes.SELECT,
+  return await sequelize.query(
+    `SELECT id, teacherName, teacherEmail, teacherPhone, teacherAddress, teacherBio, teacherProfile, teacherSalary, teacherExpert FROM teacher_${instituteNumber} `,
+    {
+      type: QueryTypes.SELECT,
+    }
+  );
+};
+
+// delete teacher
+const deleteTeacher = async (instituteNumber: Number, teacherId: string) => {
+  // 1 first check teacher exists or not 
+  const findTeacher = await sequelize.query(
+    `SELECT * FROM  teacher_${instituteNumber} WHERE id = ?`,
+    {
+      type: QueryTypes.SELECT,
+      replacements: [teacherId],
+    }
+  );
+  // 2 If not exists
+  if (findTeacher.length === 0 || !findTeacher) {
+    throw { statusCode: 404, message: "Teacher not found" };
+  }
+  
+  await sequelize.query(`DELETE FROM teacher_${instituteNumber} WHERE id = ?`, {
+    type: QueryTypes.DELETE,
+    replacements: [teacherId],
   });
 };
 
-export { createTeacher, getAllTeacher };
+export { createTeacher, getAllTeacher, deleteTeacher };

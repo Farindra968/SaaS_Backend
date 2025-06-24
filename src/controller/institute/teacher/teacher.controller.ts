@@ -1,6 +1,6 @@
 import { Response } from "express";
 import { IExtendRequest } from "../../../global";
-import { createTeacher, getAllTeacher } from "../../../services/institute/teacher/teacher.service";
+import { createTeacher, deleteTeacher, getAllTeacher } from "../../../services/institute/teacher/teacher.service";
 
 class TeacherController {
   // create teacher
@@ -67,6 +67,18 @@ class TeacherController {
 
     const result = await getAllTeacher(instituteNumber)
     res.status(200).json({ data:result})
+  }
+
+  // delete Teacher
+  static async deleteTeacher (req:IExtendRequest, res:Response) {
+        //1. Destructure the institute Number from req.user
+    const instituteNumber:any = req.user?.instituteCode
+
+    // 2. Teacher id in req.params
+    const {teacherId} = req.params
+
+    await deleteTeacher(instituteNumber, teacherId)
+    res.status(200).json({message: "Teacher Deleted successfully"})
   }
 }
 

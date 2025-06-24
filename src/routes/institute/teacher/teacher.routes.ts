@@ -15,4 +15,7 @@ router
     TeacherController.createTeacher
   ).get(Middleware.isLoggedIn, asyncHandler(TeacherController.getAllTeacher))
 
+
+// dynamic route
+router.route("/:teacherId").delete(Middleware.isLoggedIn, asyncHandler(TeacherController.deleteTeacher))
 export default router;

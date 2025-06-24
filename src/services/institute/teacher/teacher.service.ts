@@ -24,13 +24,14 @@ const createTeacher = async (
   // random pass
   const password = generateRandomPassword(data.teacherName);
   await sequelize.query(
-    `INSERT INTO teacher_${instituteNumber} (teacherName, teacherEmail, teacherPhone, , teacherBio, teacherProfile, teacherSalary, teacherExpert, teacherPasword) VALUES(?,?,?,?,?,?,?,?)`,
+    `INSERT INTO teacher_${instituteNumber} (teacherName, teacherEmail, teacherPhone, teacherAddress, teacherBio, teacherProfile, teacherSalary, teacherExpert, teacherPasword) VALUES(?,?,?,?,?,?,?,?,?)`,
     {
       type: QueryTypes.INSERT,
       replacements: [
         data.teacherName,
         data.teacherEmail,
         data.teacherPhone,
+        data.teacherAddress,
         data.teacherBio,
         profileImage[0]?.url,
         data.teacherSalary,

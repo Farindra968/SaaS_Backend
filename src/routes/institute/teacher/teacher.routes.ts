@@ -12,7 +12,7 @@ router
   .post(
     Middleware.isLoggedIn,
     upload.single("teacherProfile"),
-    asyncHandler(TeacherController.createTeacher)
+    TeacherController.createTeacher
   );
 
 export default router;

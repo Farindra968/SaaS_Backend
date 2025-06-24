@@ -5,7 +5,8 @@ import { createTeacher } from "../../../services/institute/teacher/teacher.servi
 class TeacherController {
   // create teacher
   static async createTeacher(req: IExtendRequest, res: Response) {
-    //1. destructure req.body
+    try {
+                //1. destructure req.body
     const {
       teacherName,
       teacherEmail,
@@ -47,7 +48,11 @@ class TeacherController {
       instituteNumber,
       teacherProfile
     );
-    res.status(2001).json({ message: "Teacher Add successfully ", result });
+    
+    res.status(201).json({ message: "Teacher Add successfully ", result });
+    } catch (error) {
+        res.status(500).json({message: error})
+    }
   }
 }
 

@@ -75,6 +75,7 @@ id VARCHAR(36) PRIMARY KEY NOT NULL UNIQUE DEFAULT (UUID()),
     joinedDate DATE DEFAULT CURRENT_DATE,
     teacherPasword VARCHAR(255) NOT NULL,
     teacherExpert VARCHAR(100) NOT NULL,
+    courseId VARCHAR(255) REFERENCES course_${instituteNumber} id,
     teacherStatus ENUM("pending", "active", "suspended") NOT NULL DEFAULT "pending",
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -109,7 +110,8 @@ const createCourseTable = async (instituteNumber: Number) => {
     courseDescription TEXT,
     courseDuration VARCHAR(100),
     courseLevel ENUM("beginner","intermediate","advance") NOT NULL DEFAULT "beginner",
-    categoryId VARCHAR(36) NOT NULL REFERENCEs courseCategory_${instituteNumber} (id),
+    teacherId VARCHAR(36) REFERENCES teacher_${instituteNumber} (id),
+    categoryId VARCHAR(36) NOT NULL REFERENCES courseCategory_${instituteNumber} (id),
     isPublished BOOLEAN DEFAULT false,
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP

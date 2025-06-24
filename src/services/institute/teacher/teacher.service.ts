@@ -11,6 +11,7 @@ interface ITeacherData {
   teacherBio: string;
   teacherSalary: string;
   teacherExpertise: string;
+  courseId: string
 }
 
 const createTeacher = async (
@@ -23,7 +24,7 @@ const createTeacher = async (
 
   // random pass
   const password = generateRandomPassword(data.teacherName);
-  return await sequelize.query(
+  const teacherData = await sequelize.query(
     `INSERT INTO teacher_${instituteNumber} (teacherName, teacherEmail, teacherPhone, teacherAddress, teacherBio, teacherProfile, teacherSalary, teacherExpert, teacherPasword) VALUES(?,?,?,?,?,?,?,?,?)`,
     {
       type: QueryTypes.INSERT,
@@ -40,6 +41,16 @@ const createTeacher = async (
       ],
     }
   );
+
+  const teacherId: {id:string}[] = await sequelize.query(`SELECT id FROM teacher_${instituteNumber} WHERE teacherEmail =?`, {
+    type: QueryTypes.SELECT,
+    replacements: [data.teacherEmail]
+  })
+
+  await sequelize.query(`UPDATE course_${instituteNumber} SET teacherId=? WHERE id=?`,{
+    type: QueryTypes.UPDATE,
+    replacements: [teacherId[0].id, data.courseId]
+  })
 };
 
 // get all Teacher
@@ -54,7 +65,7 @@ const getAllTeacher = async (instituteNumber: Number) => {
 
 // delete teacher
 const deleteTeacher = async (instituteNumber: Number, teacherId: string) => {
-  // 1 first check teacher exists or not 
+  // 1 first check teacher exists or not
   const findTeacher = await sequelize.query(
     `SELECT * FROM  teacher_${instituteNumber} WHERE id = ?`,
     {
@@ -66,7 +77,7 @@ const deleteTeacher = async (instituteNumber: Number, teacherId: string) => {
   if (findTeacher.length === 0 || !findTeacher) {
     throw { statusCode: 404, message: "Teacher not found" };
   }
-  
+
   await sequelize.query(`DELETE FROM teacher_${instituteNumber} WHERE id = ?`, {
     type: QueryTypes.DELETE,
     replacements: [teacherId],

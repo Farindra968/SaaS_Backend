@@ -23,7 +23,7 @@ sequelize
 
 // migration
 sequelize
-  .sync({alter: true}) // Set to true if you want to alter the tables to match the models
+  .sync({alter: false}) // Set to true if you want to alter the tables to match the models
   // Use { force: true } to drop and recreate tables, but be cautious as this will delete existing data
   .then(() => {
     console.log("Database synchronized successfully.");

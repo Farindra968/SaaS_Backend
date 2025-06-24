@@ -1,6 +1,6 @@
 import { Response } from "express";
 import { IExtendRequest } from "../../../global";
-import { createTeacher } from "../../../services/institute/teacher/teacher.service";
+import { createTeacher, getAllTeacher } from "../../../services/institute/teacher/teacher.service";
 
 class TeacherController {
   // create teacher
@@ -53,6 +53,20 @@ class TeacherController {
     } catch (error) {
         res.status(500).json({message: error})
     }
+  }
+
+  // get all Teacher
+  static async getAllTeacher (req:IExtendRequest, res:Response) {
+    //1. Destructure the institute Number from req.user
+    const instituteNumber:any = req.user?.instituteCode
+
+    if(!instituteNumber) {
+        res.status(404).json({message: "Institute Number code is nor found"})
+        return;
+    }
+
+    const result = await getAllTeacher(instituteNumber)
+    res.status(200).json({ data:result})
   }
 }
 

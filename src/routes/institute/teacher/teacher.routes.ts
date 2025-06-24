@@ -13,6 +13,6 @@ router
     Middleware.isLoggedIn,
     upload.single("teacherProfile"),
     TeacherController.createTeacher
-  );
+  ).get(Middleware.isLoggedIn, asyncHandler(TeacherController.getAllTeacher))
 
 export default router;

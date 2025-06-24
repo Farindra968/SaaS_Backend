@@ -23,7 +23,7 @@ const createTeacher = async (
 
   // random pass
   const password = generateRandomPassword(data.teacherName);
-  await sequelize.query(
+  return await sequelize.query(
     `INSERT INTO teacher_${instituteNumber} (teacherName, teacherEmail, teacherPhone, teacherAddress, teacherBio, teacherProfile, teacherSalary, teacherExpert, teacherPasword) VALUES(?,?,?,?,?,?,?,?,?)`,
     {
       type: QueryTypes.INSERT,
@@ -42,4 +42,11 @@ const createTeacher = async (
   );
 };
 
-export { createTeacher };
+// get all Teacher
+const getAllTeacher = async (instituteNumber: Number) => {
+  return await sequelize.query(`SELECT teacherName, teacherEmail, teacherPhone, teacherAddress, teacherBio, teacherProfile, teacherSalary, teacherExpert FROM teacher_${instituteNumber} `, {
+    type: QueryTypes.SELECT,
+  });
+};
+
+export { createTeacher, getAllTeacher };

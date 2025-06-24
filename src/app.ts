@@ -10,6 +10,7 @@ import authRoute from "./routes/global/auth/auth.routes";
 import instituteRoute from "./routes/institute/institute.routes";
 import courseRoute from "./routes/institute/course/course.routes";
 import categoryRoute from "./routes/institute/category/category.routes"
+import teacherRoute from "./routes/institute/teacher/teacher.routes"
 import cloudinaryConfig from "./config/cloudinaryConfig"; 
 
 const app = express();
@@ -39,6 +40,7 @@ app.get("/", (req: Request, res: Response) => {
 app.use("/api/auth", authRoute);
 app.use("/api/institute", instituteRoute);
 app.use("/api/institute/course", courseRoute);
-app.use("/api/institute/category", categoryRoute)
+app.use("/api/institute/category", categoryRoute);
+app.use("/api/institute/teacher", teacherRoute);
 
 export default app;

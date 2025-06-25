@@ -75,7 +75,7 @@ id VARCHAR(36) PRIMARY KEY NOT NULL UNIQUE DEFAULT (UUID()),
     joinedDate DATE DEFAULT CURRENT_DATE,
     teacherPasword VARCHAR(255) NOT NULL,
     teacherExpert VARCHAR(100) NOT NULL,
-    courseId VARCHAR(255) REFERENCES course_${instituteNumber} id,
+    courseId VARCHAR(100) REFERENCES course_${instituteNumber}(id),
     teacherStatus ENUM("pending", "active", "suspended") NOT NULL DEFAULT "pending",
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP

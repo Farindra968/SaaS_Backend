@@ -2,17 +2,10 @@ import { QueryTypes } from "sequelize";
 import sequelize from "../../../config/dbConnection";
 import uploadFile from "../../../utils/file";
 import generateRandomPassword from "../../../utils/generateRandomPassword";
-
-interface ITeacherData {
-  teacherName: string;
-  teacherEmail: string;
-  teacherPhone: string;
-  teacherAddress: string;
-  teacherBio: string;
-  teacherSalary: string;
-  teacherExpertise: string;
-  courseId: string
-}
+import Mailer from "../../../utils/sendMail";
+import sendMail from "../../../utils/sendMail";
+import teacherWelcomeEmail from "../../../mail/teacherWelcome";
+import { ITeacherData } from "../../../global";
 
 const createTeacher = async (
   data: ITeacherData,
@@ -21,10 +14,13 @@ const createTeacher = async (
 ) => {
   // handeling file / uploading fie in cloudinary
   const profileImage = await uploadFile([teacherProfile]);
+  if (!profileImage[0]?.url) {
+    throw new Error("Failed to upload teacher profile image.");
+  }
 
   // random pass
-  const password = generateRandomPassword(data.teacherName);
-  const teacherData = await sequelize.query(
+  const password = await generateRandomPassword(data.teacherName);
+  await sequelize.query(
     `INSERT INTO teacher_${instituteNumber} (teacherName, teacherEmail, teacherPhone, teacherAddress, teacherBio, teacherProfile, teacherSalary, teacherExpert, teacherPasword) VALUES(?,?,?,?,?,?,?,?,?)`,
     {
       type: QueryTypes.INSERT,
@@ -37,20 +33,48 @@ const createTeacher = async (
         profileImage[0]?.url,
         data.teacherSalary,
         data.teacherExpertise,
-        (await password).hasspassword,
+        password.hasspassword,
       ],
     }
   );
 
-  const teacherId: {id:string}[] = await sequelize.query(`SELECT id FROM teacher_${instituteNumber} WHERE teacherEmail =?`, {
-    type: QueryTypes.SELECT,
-    replacements: [data.teacherEmail]
-  })
+  console.log("ReplaceMent", [
+    data.teacherName,
+    data.teacherEmail,
+    data.teacherPhone,
+    data.teacherAddress,
+    data.teacherBio,
+    profileImage[0]?.url,
+    data.teacherSalary,
+    data.teacherExpertise,
+    password.hasspassword,
+  ]);
 
-  await sequelize.query(`UPDATE course_${instituteNumber} SET teacherId=? WHERE id=?`,{
-    type: QueryTypes.UPDATE,
-    replacements: [teacherId[0].id, data.courseId]
-  })
+  const teacherId: { id: string }[] = await sequelize.query(
+    `SELECT id FROM teacher_${instituteNumber} WHERE teacherEmail =?`,
+    {
+      type: QueryTypes.SELECT,
+      replacements: [data.teacherEmail],
+    }
+  );
+
+  await sequelize.query(
+    `UPDATE course_${instituteNumber} SET teacherId=? WHERE id=?`,
+    {
+      type: QueryTypes.UPDATE,
+      replacements: [teacherId[0].id, data.courseId],
+    }
+  );
+
+  // send mail function
+  const plainPassword = password.plaintext;
+
+  const mailInforation = {
+    to: data.teacherEmail,
+    subject: `Welcome ${data.teacherName} as a Mentor of Edu Academy`,
+    html: teacherWelcomeEmail(plainPassword, data),
+  };
+  await sendMail(mailInforation);
 };
 
 // get all Teacher

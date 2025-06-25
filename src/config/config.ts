@@ -17,6 +17,10 @@ const envConfig = {
     cloudinaryKey: process.env.CLOUDINARY_API_KEY,
     cloudinarySecret: process.env.CLOUDINARY_API_SECRET,
     cloudinaryFolder: process.env.CLOUDINARY_FOLDER,
+    // Nodemailer
+    nodemailerUser: process.env.NODEMAILER_GMAIL,
+    nodemailerPass: process.env.NODEMAILER_GMAIL_PASS,
+    nodemailerSender: process.env.NODEMAILER_SENDER
 }
 
 

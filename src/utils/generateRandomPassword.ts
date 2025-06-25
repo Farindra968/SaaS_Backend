@@ -1,4 +1,5 @@
 import bcrypt from "bcryptjs";
+import { randomUUID } from "crypto";
 
 const generateRandomPassword = async (name: string) => {
   //1. capitalized first word farindra = Farindra
@@ -7,17 +8,15 @@ const generateRandomPassword = async (name: string) => {
   //2. generatng random number = Farinda1245
   const randomNumber = Math.floor(1000 + Math.random() * 9000);
 
-  //3. generating random symbol = #%^^&*^%$###
-  const symbols = "!@#$%^&*()";
-  const randomSymbol = Math.floor(Math.random() + symbols.length);
+  const uuid = randomUUID().slice(0, 10);
 
   // 4. hashing the passwoed == Farindra%^&&^22555
   const hasspassword = {
     hasspassword: await bcrypt.hash(
-      `${capitalized}${randomSymbol}${randomNumber}*`,
+      `${capitalized}${uuid}${randomNumber}@`,
       12
     ),
-    plaintext: `${capitalized}${randomSymbol}${randomNumber}*`,
+    plaintext: `${capitalized}${uuid}${randomNumber}@`,
   };
 
   return hasspassword;

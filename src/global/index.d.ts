@@ -45,3 +45,14 @@ export interface ITeacher {
   teacherPhone:string, 
   teacherAddress:string
 }
+
+export interface ITeacherData {
+  teacherName: string;
+  teacherEmail: string;
+  teacherPhone: string;
+  teacherAddress: string;
+  teacherBio: string;
+  teacherSalary: string;
+  teacherExpertise: string;
+  courseId: string
+}

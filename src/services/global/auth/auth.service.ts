@@ -13,7 +13,7 @@ const authRegister = async (data: any) => {
     phoneNumber: data.phoneNumber,
   });
   if (!register) {
-    throw {statusCode: 400, message:"User Registeration fieod"};
+    throw { statusCode: 400, message: "User registration failed" };
   }
   return register;
 };

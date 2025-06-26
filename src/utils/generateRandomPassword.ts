@@ -3,7 +3,9 @@ import { randomUUID } from "crypto";
 
 const generateRandomPassword = async (name: string) => {
   //1. capitalized first word farindra = Farindra
-  let capitalized = name.charAt(0).toUpperCase() + name.slice(1);
+  let userName = name.replace(/\s+/g, "") // removes all spaces
+
+  let capitalized = userName.charAt(0).toUpperCase() + userName.slice(1);
 
   //2. generatng random number = Farinda1245
   const randomNumber = Math.floor(1000 + Math.random() * 9000);

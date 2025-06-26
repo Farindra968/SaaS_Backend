@@ -21,7 +21,7 @@ const createTeacher = async (
   // random pass
   const password = await generateRandomPassword(data.teacherName);
   await sequelize.query(
-    `INSERT INTO teacher_${instituteNumber} (teacherName, teacherEmail, teacherPhone, teacherAddress, teacherBio, teacherProfile, teacherSalary, teacherExpert, teacherPasword) VALUES(?,?,?,?,?,?,?,?,?)`,
+    `INSERT INTO teacher_${instituteNumber} (teacherName, teacherEmail, teacherPhone, teacherAddress, teacherBio, teacherProfile, teacherSalary, teacherExpert, teacherPassword) VALUES(?,?,?,?,?,?,?,?,?)`,
     {
       type: QueryTypes.INSERT,
       replacements: [
@@ -72,7 +72,7 @@ const createTeacher = async (
   const mailInforation = {
     to: data.teacherEmail,
     subject: `Welcome ${data.teacherName} as a Mentor of Edu Academy`,
-    html: teacherWelcomeEmail(plainPassword, data),
+    html: teacherWelcomeEmail(plainPassword, data, instituteNumber),
   };
   await sendMail(mailInforation);
 };

@@ -1,6 +1,10 @@
 import { ITeacherData } from "../global";
 
-const teacherWelcomeEmail = (plainPassword: string, data: ITeacherData) => {
+const teacherWelcomeEmail = (
+  plainPassword: string,
+  data: ITeacherData,
+  instituteNumber: Number
+) => {
   return `
     <div 
       role="article" 
@@ -13,11 +17,11 @@ const teacherWelcomeEmail = (plainPassword: string, data: ITeacherData) => {
         padding: 30px 25px; 
         border-radius: 12px; 
         border: 1px solid #e0e0e0; 
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-        color: #34495e;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        color: #2c3e50;
       "
     >
-      <h2 style="color: #2c3e50; text-align: center; font-weight: 700; margin-bottom: 24px;">
+      <h2 style="text-align: center; font-weight: 700; margin-bottom: 20px;">
         👋 Welcome to Edu Academy, ${data.teacherName}!
       </h2>
 
@@ -28,19 +32,16 @@ const teacherWelcomeEmail = (plainPassword: string, data: ITeacherData) => {
 
       <div 
         style="
-          background-color: #f1f8ff; 
+          background-color: #f9f9f9; 
           border-left: 5px solid #3498db; 
           border-radius: 6px; 
-          padding: 20px; 
+          padding: 20px 25px; 
           margin-bottom: 30px;
         "
       >
-        <p style="font-size: 16px; margin: 8px 0;">
-          <strong>Email:</strong> <em>${data.teacherEmail}</em>
-        </p>
-        <p style="font-size: 16px; margin: 8px 0;">
-          <strong>Temporary Password:</strong> <em>${plainPassword}</em>
-        </p>
+        <p style="font-size: 16px; margin: 8px 0;"><strong>Email:</strong> <em>${data.teacherEmail}</em></p>
+        <p style="font-size: 16px; margin: 8px 0;"><strong>Temporary Password:</strong> <em>${plainPassword}</em></p>
+        <p style="font-size: 16px; margin: 8px 0;"><strong>Institute Number:</strong> <em>${instituteNumber}</em></p>
       </div>
 
       <div style="text-align: center; margin-bottom: 30px;">
@@ -57,13 +58,16 @@ const teacherWelcomeEmail = (plainPassword: string, data: ITeacherData) => {
             display: inline-block;
             transition: background-color 0.3s ease;
           "
-          onmouseover="this.style.backgroundColor='#217dbb';"
-          onmouseout="this.style.backgroundColor='#3498db';"
-          >🔐 Log In to Your Account</a
         >
+          🔐 Log In to Your Account
+        </a>
       </div>
 
       <p style="font-size: 15px; color: #555; margin-bottom: 20px;">
+        <strong>Note:</strong> While logging in, make sure to enter your <strong>Institute Number</strong> along with your email and password.
+      </p>
+
+      <p style="font-size: 15px; color: #555;">
         For your security, please change your password after logging in. If you have any questions or need assistance, our support team is here to help.
       </p>
 
